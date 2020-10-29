@@ -2,6 +2,8 @@
 
 This is a repository for open slides presented to the public. It is not to be confused with the private repository hosted on our [UiO Enterprise GitHub page](https://github.uio.no/ocbe/meeting-notes-and-slides), designed to host presentations containing private or sensitive information.
 
+By "open slides", we mean licensed by CC-BY-SA-4.0. You can read more about it on the [License](#license) section below.
+
 # File structure
 
 ## The `Presented` folder
