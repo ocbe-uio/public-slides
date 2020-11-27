@@ -4,6 +4,8 @@ This is a repository for open slides presented to the public. It is not to be co
 
 # File structure
 
+When uploading files to both folders, please consider adding a date to the name of your files in the "YYYYMMDD-" format so they are properly sorted by date.
+
 ## The `Presented` folder
 
 This folder contains the slides as they were seen by the public (or an updated version of them). **The files should be in a universal, unwritable format** such as .pdf or a standalone .html.
