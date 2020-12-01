@@ -8,11 +8,11 @@ When uploading files to both folders, please consider adding a date to the name 
 
 ## The `Presented` folder
 
-This folder contains the slides as they were seen by the public (or an updated version of them). **The files should be in a universal, unwritable format** such as .pdf or a standalone .html.
+This folder contains the **slides as they were seen by the public** (or an updated version of them). The files should be in a universal, unwritable format such as .pdf or a standalone .html.
 
 ## The `Source` folder
 
-This folder contains files used to generate the presented slides. **These files can be in whatever format you prefer**, but are usually formatted as .tex, .md, .Rmd, .html or .pptx.
+This folder contains **files used to generate the presented slides**. These files can be in whatever format you prefer, but are usually formatted as .tex, .md, .Rmd, .html or .pptx.
 
 This folder contains an `Images` subfolder which you can use to upload the figures used in the source code, if you wish.
 
