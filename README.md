@@ -2,20 +2,6 @@
 
 This is a repository for open slides presented to the public. It is not to be confused with the private repository hosted on our [UiO Enterprise GitHub page](https://github.uio.no/ocbe/meeting-notes-and-slides), designed to host presentations containing private or sensitive information not ready for public release. It may, however, host privately-presented slides that can be publicly available as long as they comply with the repository license (read more about it [below](#license)).
 
-# File structure
-
-When uploading files to both folders, please consider adding a date to the name of your files in the "YYYYMMDD-" format so they are properly sorted by date.
-
-## The `Presented` folder
-
-This folder contains the **slides as they were seen by the public** (or an updated version of them). The files should be in a universal, unwritable format such as .pdf or a standalone .html.
-
-## The `Source` folder
-
-This folder contains **files used to generate the presented slides**. These files can be in whatever format you prefer, but are usually formatted as .tex, .md, .Rmd, .html or .pptx.
-
-This folder contains an `img` subfolder which you can use to upload the images used in the source code, if you wish.
-
 # File naming convention
 
 Please prepend your files with the presentation date in the format `YYYYMMDD-` so they are properly sorted and more easily findable.
