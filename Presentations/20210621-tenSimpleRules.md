@@ -34,7 +34,7 @@ Waldir Leôncio Netto
 ![bg brightness:0.5 110%](https://i.ytimg.com/vi/06dKRdhDT78/maxresdefault.jpg)
 
 1) Think before you code
-2) Start with protorypes and expand them in short development cycles
+2) Start with prototypes and expand them in short development cycles
 3) Look for opportunities for code reuse
 4) Modularize your code
 5) Avoid premature optimization
@@ -64,7 +64,7 @@ Waldir Leôncio Netto
 
 ---
 
-## 2. Start with protorypes and expand them in short development cycles
+## 2. Start with prototypes and expand them in short development cycles
 
 - Do the simplest thing that could possibly work
 - MVP: the smallest program (in terms of features) needed to test your _key project assumptions_. (from [rule 1](#5))
