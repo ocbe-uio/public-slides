@@ -1,11 +1,26 @@
----
-title: Answer key to R workshop exercises
-author: Waldir Leoncio
-date: "2021-09-22"
-output:
-  html_document:
-    toc: true
----
+# Answer key to R workshop exercises
+
+Waldir Leoncio
+
+# Table of contents
+
+<!-- TOC -->
+
+- [Answer key to R workshop exercises](#answer-key-to-r-workshop-exercises)
+- [Table of contents](#table-of-contents)
+- [Exercise!](#exercise)
+- [Work it!](#work-it)
+- [Pie](#pie)
+- [Bonus round](#bonus-round)
+- [Exercise with trees](#exercise-with-trees)
+- [Back to the Guinea pigs](#back-to-the-guinea-pigs)
+- [A couple extra exercises](#a-couple-extra-exercises)
+- [Reading and saving data](#reading-and-saving-data)
+- [dplyr](#dplyr)
+- [Functions](#functions)
+- [Debugging](#debugging)
+
+<!-- /TOC -->
 
 # Exercise!
 
@@ -153,12 +168,12 @@ summary(trees)
 ```
 
 ```
-##      Girth           Height       Volume     
-##  Min.   : 8.30   Min.   :63   Min.   :10.20  
-##  1st Qu.:11.05   1st Qu.:72   1st Qu.:19.40  
-##  Median :12.90   Median :76   Median :24.20  
-##  Mean   :13.25   Mean   :76   Mean   :30.17  
-##  3rd Qu.:15.25   3rd Qu.:80   3rd Qu.:37.30  
+##      Girth           Height       Volume
+##  Min.   : 8.30   Min.   :63   Min.   :10.20
+##  1st Qu.:11.05   1st Qu.:72   1st Qu.:19.40
+##  Median :12.90   Median :76   Median :24.20
+##  Mean   :13.25   Mean   :76   Mean   :30.17
+##  3rd Qu.:15.25   3rd Qu.:80   3rd Qu.:37.30
 ##  Max.   :20.60   Max.   :87   Max.   :77.00
 ```
 
@@ -166,19 +181,19 @@ summary(trees)
 plot(trees)
 ```
 
-<img src="answerKey_files/figure-html/trees-1.png" width="672" />
+<img src="img/answerKey_files/figure-html/trees-1.png" width="672" />
 
 ```r
 lm(Height ~ Girth + Volume, data = trees)
 ```
 
 ```
-## 
+##
 ## Call:
 ## lm(formula = Height ~ Girth + Volume, data = trees)
-## 
+##
 ## Coefficients:
-## (Intercept)        Girth       Volume  
+## (Intercept)        Girth       Volume
 ##     83.2958      -1.8615       0.5756
 ```
 
@@ -190,7 +205,7 @@ lm(Height ~ Girth + Volume, data = trees)
 boxplot(len ~ supp, data = ToothGrowth)
 ```
 
-<img src="answerKey_files/figure-html/guinea_pigs_supp-1.png" width="672" />
+<img src="img/answerKey_files/figure-html/guinea_pigs_supp-1.png" width="672" />
 
 ```r
 Tooth_OJ <- ToothGrowth[ToothGrowth$supp == 'OJ', ]
@@ -199,16 +214,16 @@ t.test(Tooth_OJ$len, Tooth_VC$len)
 ```
 
 ```
-## 
+##
 ## 	Welch Two Sample t-test
-## 
+##
 ## data:  Tooth_OJ$len and Tooth_VC$len
 ## t = 1.9153, df = 55.309, p-value = 0.06063
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
 ##  -0.1710156  7.5710156
 ## sample estimates:
-## mean of x mean of y 
+## mean of x mean of y
 ##  20.66333  16.96333
 ```
 
@@ -218,7 +233,7 @@ t.test(Tooth_OJ$len, Tooth_VC$len)
 boxplot(len ~ dose, data = ToothGrowth)
 ```
 
-<img src="answerKey_files/figure-html/guinea_pigs_dose-1.png" width="672" />
+<img src="img/answerKey_files/figure-html/guinea_pigs_dose-1.png" width="672" />
 
 ```r
 Tooth_d05 <- ToothGrowth[ToothGrowth$dose == 0.5, ]
@@ -228,16 +243,16 @@ t.test(Tooth_d05$len, Tooth_d10$len)
 ```
 
 ```
-## 
+##
 ## 	Welch Two Sample t-test
-## 
+##
 ## data:  Tooth_d05$len and Tooth_d10$len
 ## t = -6.4766, df = 37.986, p-value = 1.268e-07
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
 ##  -11.983781  -6.276219
 ## sample estimates:
-## mean of x mean of y 
+## mean of x mean of y
 ##    10.605    19.735
 ```
 
@@ -246,16 +261,16 @@ t.test(Tooth_d05$len, Tooth_d20$len)
 ```
 
 ```
-## 
+##
 ## 	Welch Two Sample t-test
-## 
+##
 ## data:  Tooth_d05$len and Tooth_d20$len
 ## t = -11.799, df = 36.883, p-value = 4.398e-14
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
 ##  -18.15617 -12.83383
 ## sample estimates:
-## mean of x mean of y 
+## mean of x mean of y
 ##    10.605    26.100
 ```
 
@@ -264,16 +279,16 @@ t.test(Tooth_d10$len, Tooth_d20$len)
 ```
 
 ```
-## 
+##
 ## 	Welch Two Sample t-test
-## 
+##
 ## data:  Tooth_d10$len and Tooth_d20$len
 ## t = -4.9005, df = 37.101, p-value = 1.906e-05
 ## alternative hypothesis: true difference in means is not equal to 0
 ## 95 percent confidence interval:
 ##  -8.996481 -3.733519
 ## sample estimates:
-## mean of x mean of y 
+## mean of x mean of y
 ##    19.735    26.100
 ```
 
@@ -314,7 +329,7 @@ table(x)
 
 ```
 ## x
-##  3  4  5  6  7  8  9 10 11 12 13 14 16 17 18 19 
+##  3  4  5  6  7  8  9 10 11 12 13 14 16 17 18 19
 ##  1  4  2  4 10 15  6 17 10  5 12  8  2  2  1  1
 ```
 
@@ -323,7 +338,7 @@ plot(table(x))
 abline(v=mean(x), col='red')
 ```
 
-<img src="answerKey_files/figure-html/plotting-extra-1.png" width="672" />
+<img src="img/answerKey_files/figure-html/plotting-extra-1.png" width="672" />
 
 # Reading and saving data
 
@@ -365,19 +380,19 @@ library(dplyr)
 ```
 
 ```
-## 
+##
 ## Attaching package: 'dplyr'
 ```
 
 ```
 ## The following objects are masked from 'package:stats':
-## 
+##
 ##     filter, lag
 ```
 
 ```
 ## The following objects are masked from 'package:base':
-## 
+##
 ##     intersect, setdiff, setequal, union
 ```
 
@@ -397,7 +412,7 @@ identical(vroom, within(mtcars, {wt <- wt / 0.4536; kpl <- mpg * 0.4251}))
 plot(vroom)
 ```
 
-<img src="answerKey_files/figure-html/dplyr-1.png" width="672" />
+<img src="img/answerKey_files/figure-html/dplyr-1.png" width="672" />
 
 ```r
 round(cor(vroom), 2)
@@ -424,8 +439,8 @@ prop.table(table(vroom$cyl))
 ```
 
 ```
-## 
-##       4       6       8 
+##
+##       4       6       8
 ## 0.34375 0.21875 0.43750
 ```
 
@@ -434,7 +449,7 @@ table(vroom$cyl, vroom$hp)
 ```
 
 ```
-##    
+##
 ##     52 62 65 66 91 93 95 97 105 109 110 113 123 150 175 180 205 215 230 245 264 335
 ##   4  1  1  1  2  1  1  1  1   0   1   0   1   0   0   0   0   0   0   0   0   0   0
 ##   6  0  0  0  0  0  0  0  0   1   0   3   0   2   0   1   0   0   0   0   0   0   0
