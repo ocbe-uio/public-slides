@@ -4,7 +4,7 @@ This is a repository for open slides presented to the public. It is not to be co
 
 # File naming convention
 
-Please prepend your files with the presentation date in the format `YYYYMMDD-` so they are properly sorted and more easily findable.
+Please prefix your files with the presentation date in the format `YYYYMMDD-` so they are properly sorted and more easily findable. Also avoid using spaces in the file name because computers are often scared of those.
 
 # License
 
