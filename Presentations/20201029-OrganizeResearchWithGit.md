@@ -239,7 +239,7 @@ git init # within working directory
 
 1. First do some science
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/science.gif" height=100>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/science.gif" height=300>
 
 2. Then commit―i.e. register on Git―a version of your science
 
@@ -254,7 +254,7 @@ git log
 
 3. Go make more science
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/moreScience.gif" height=100>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/moreScience.gif" height=300>
 
 4. Realize what you have done
 
@@ -312,7 +312,7 @@ git tag (tagname) (commit)
   2) Differ after some commits
   3) Goal: merge back with trunk
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/tree.jpg" height=100>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/tree.jpg" height=300>
 
 ---
 
@@ -347,13 +347,13 @@ git branch -d (branch name)  # recommended cleanup
 
 Create a file called `.gitignore` and chuck all that in it.
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitignore.png" height=100>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitignore.png" height=300>
 
 ---
 
 ## Example:
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitignoreExample.png" height=100>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitignoreExample.png" height=300>
 
 ---
 
@@ -401,7 +401,7 @@ git push   # 3. Copy your local branch to remote
   - `man git`
 - (Very well-curated) official documentation: https://git-scm.com/doc
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/cheatSheet.jpg" height=100>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/cheatSheet.jpg" height=300>
 
 [Yes](https://lmddgtfy.net/?q=git%20cheat%20sheet)
 
@@ -417,7 +417,7 @@ git push   # 3. Copy your local branch to remote
   https://www.gitkraken.com/
 
 <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/marp-white.png" height=40>
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/code.png" height=40>
+<img src="https://raw.githubusercontent.com/VSCodium/vscodium/master/src/resources/linux/code.png" height=40>
 <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitkraken-logo-mono-light-hz.png" height=40>
 
 <!-- Getting used to the VSC environment could be useful for GitHub users due to the upcoming Codespaces -->
