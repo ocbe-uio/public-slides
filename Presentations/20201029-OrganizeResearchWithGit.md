@@ -114,7 +114,7 @@ unlike SVN and CVS
 <!--
 _color: white
 -->
-![bg blur:3px brightness:50%](../img/gitTerminal3.png)
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitTerminal3.png" height=40>
 
 # Git is primarily text-based software (just like <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/R.png" height=40>!)
 
@@ -139,9 +139,9 @@ _color: white
 	:rage: Adds another app to your workflow
 	<b data-marpit-fragment> :ballot_box_with_check: Chosen tool for this talk (+ terminal)!	</b>
 
-![bg right:30% fit vertical](../img/RStudio-Logo-White.png)
-![bg fit](../img/vsc-alpha.png)
-![bg fit](../img/gitkraken-logo-mono-light-hz.png)
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/RStudio-Logo-White.png" height=40>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/vsc-alpha.png" height=40>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitkraken-logo-mono-light-hz.png" height=40>
 
 <!--
 Reasons to bring up VSC:
@@ -175,7 +175,7 @@ Gitkraken + terminal: most universal solution (I think)
 2. <b class="def">Staging area</b>: a temporary area where files are gathered and prepared for a commit
 3. <b class="def">Repository</b>: after the commit, the files are moved from the staging into the repository for permanent storage
 
-![bg invert right 100%](../img/staging.png)
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/staging.png" height=40>
 
 ---
 
@@ -187,7 +187,7 @@ Gitkraken + terminal: most universal solution (I think)
 
 ## Optimize your workspace to follow this workshop
 
-![bg right:40% 80%](../img/screenOrg.png)
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/screenOrg.png" height=40>
 
 - **Slides** to follow the workshop instructions
 - **Chat/notepad** to socialize and take notes
@@ -233,7 +233,7 @@ git init # within working directory
 
 1. First do some science
 
-![](../img/science.gif)
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/science.gif" height=40>
 
 2. Then commit―i.e. register on Git―a version of your science
 
@@ -248,7 +248,7 @@ git log
 
 3. Go make more science
 
-![](../img/moreScience.gif)
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/moreScience.gif" height=40>
 
 4. Realize what you have done
 
@@ -306,7 +306,7 @@ git tag (tagname) (commit)
   2) Differ after some commits
   3) Goal: merge back with trunk
 
-![bg right](../img/tree.jpg)
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/tree.jpg" height=40>
 
 ---
 
@@ -341,13 +341,13 @@ git branch -d (branch name)  # recommended cleanup
 
 Create a file called `.gitignore` and chuck all that in it.
 
-![bg right vertical fit](../img/gitignore.png)
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitignore.png" height=40>
 
 ---
 
 ## Example:
 
-![bg fit](../img/gitignoreExample.png)
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitignoreExample.png" height=40>
 
 ---
 
@@ -395,7 +395,7 @@ git push   # 3. Copy your local branch to remote
   - `man git`
 - (Very well-curated) official documentation: https://git-scm.com/doc
 
-![center h:300](../img/cheatSheet.jpg)
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/cheatSheet.jpg" height=40>
 * [Yes](https://lmddgtfy.net/?q=git%20cheat%20sheet).
 
 ---
@@ -409,9 +409,9 @@ git push   # 3. Copy your local branch to remote
 - GitKraken: Free Git GUI for Windows, Mac, Linux
   https://www.gitkraken.com/
 
-![bg right:30% fit vertical](../img/marp-white.png)
-![bg fit](https://raw.githubusercontent.com/VSCodium/vscodium/master/src/resources/linux/code.png)
-![bg fit](../img/gitkraken-logo-mono-light-hz.png)
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/marp-white.png" height=40>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/code.png" height=40>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitkraken-logo-mono-light-hz.png" height=40>
 
 <!-- Getting used to the VSC environment could be useful for GitHub users due to the upcoming Codespaces -->
 
