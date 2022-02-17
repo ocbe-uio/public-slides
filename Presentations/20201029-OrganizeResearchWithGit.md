@@ -1,12 +1,4 @@
----
-marp: true
-theme: uio-dark
----
-
-<!--
-_class: titlePage
-_footer: "UiO"
--->
+🎬 Are you more in a watching than a reading mood right now? This content is also available on YouTube: https://youtu.be/JJhx7gAm5ec
 
 # Organize your research and teaching material<br>  with Git (and ![h:40](img/../../img/R.png), or whatever floats your boat)
 
