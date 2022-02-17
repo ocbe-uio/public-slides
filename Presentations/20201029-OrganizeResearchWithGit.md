@@ -9,9 +9,12 @@ work project that doesn't involve R. You can still (and probably should!) use Gi
 
 **Waldir Leôncio Netto**
 
-Scientific programmer
-Oslo Centre for Biostatistics and Epidemiology ([OCBE](https://www.med.uio.no/imb/english/research/centres/ocbe/))
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/GitHub-Mark-120px-plus.png" height=20> [ocbe-uio](https://github.com/ocbe-uio) <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/GitHub-Mark-120px-plus.png" height=20> [wleoncio](https://github.com/wleoncio)
+Scientific programmer<br>
+Oslo Centre for Biostatistics and Epidemiology ([OCBE](https://www.med.uio.no/imb/english/research/centres/ocbe/))<br>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/GitHub-Mark-120px-plus.png" height=20><br>
+[ocbe-uio](https://github.com/ocbe-uio)<br>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/GitHub-Mark-120px-plus.png" height=20><br>
+[wleoncio](https://github.com/wleoncio)
 
 ---
 
@@ -20,14 +23,15 @@ Oslo Centre for Biostatistics and Epidemiology ([OCBE](https://www.med.uio.no/im
 # First, let's get _sooo_ meta
 
 ## About the slides
-:globe_with_meridians: Will be made available on <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/GitHub-Mark-Light-120px-plus.png" height=30> [ocbe-uio/public-slides](https://github.com/ocbe-uio/public-slides)
-:scroll: Licensed under <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/sa.xlarge.png" height=30>
+:globe_with_meridians: Will be made available on <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/GitHub-Mark-Light-120px-plus.png" height=30><br>
+[ocbe-uio/public-slides](https://github.com/ocbe-uio/public-slides)<br>
+:scroll: Licensed under <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/cc.xlarge.png" height=30><img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/by.xlarge.png" height=30><img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/sa.xlarge.png" height=30>
 
 ## About this presentation
 
-:interrobang:  Feel free to interrupt me with questions or comments at any time!
-<b class="dimmer">Remember Zoom's Chat is bad at letting the presenter know if someone asked them something.</b>
-:speech_balloon: I might post some stuff on Chat (mainly links)
+:interrobang:  Feel free to interrupt me with questions or comments at any time!<br>
+<b class="dimmer">Remember Zoom's Chat is bad at letting the presenter know if someone asked them something.</b><br>
+:speech_balloon: I might post some stuff on Chat (mainly links)<br>
 :computer: If you haven't installed Git on your computer yet, this might be your last chance: https://git-scm.com/download/
 
 <!--
@@ -88,7 +92,8 @@ But now, seriously...
 * GitHub
 	- Distributed workflows _are_ a Git feature
 	- ...albeit a secondary one. Git's main job is version control
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/GitHub_Logo_White.png" height=100> <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/Git-Logo-White.png" height=100>
+
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/GitHub_Logo_White.png" height=50> is different from <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/Git-Logo-White.png" height=50>
 
 <!--
 Git makes copies of the whole file (instead of incremental changes),
@@ -118,7 +123,7 @@ _color: white
 
 # Git is primarily text-based software (just like <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/R.png" height=40>!)
 
-:smiley: Perfect if you're looking for speed and/or use your keyboard a lot
+:smiley: Perfect if you're looking for speed and/or use your keyboard a lot<br>
 :rage: Not great if you like to use your mouse and/or don't care about speed
 
 ...but even if you identify with latter category, you may love using Git!
@@ -127,20 +132,21 @@ _color: white
 
 # Graphical interfaces to Git
 
-* [RStudio's built-in GUI](https://rstudio.com/)
-	:smiley: Convenient if you only use RStudio
-	:rage: Very limited and freeze-prone
-* [VSCode's built-in GUI](https://vscodium.com/) + [Git Graph extension](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph) (+ [R](https://marketplace.visualstudio.com/items?itemName=Ikuyadeu.r))
-	:smiley: Great if you work in many languages (R, C++, Markdown, $\TeX$) and/or _GitHub Codespaces_
-	:rage: Bad handling of pulls and merge conflicts
+* [RStudio's built-in GUI](https://rstudio.com/)<br>
+	:smiley: Convenient if you only use RStudio<br>
+	:rage: Very limited and freeze-prone<br>
+* [VSCode's built-in GUI](https://vscodium.com/) + [Git Graph extension](https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph) (+ [R](https://marketplace.visualstudio.com/items?itemName=Ikuyadeu.r))<br>
+	:smiley: Great if you work in many languages (R, C++, Markdown, $\TeX$) and/or _GitHub Codespaces_<br>
+	:rage: Bad handling of pulls and merge conflicts<br>
 	(without further extending)
-* [GitKraken](https://www.gitkraken.com/)
-	:smiley:  Very robust and featureful
-	:rage: Adds another app to your workflow
+* [GitKraken](https://www.gitkraken.com/)<br>
+	:smiley:  Very robust and featureful<br>
+	:rage: Adds another app to your workflow<br>
+
 	<b data-marpit-fragment> :ballot_box_with_check: Chosen tool for this talk (+ terminal)!	</b>
 
 <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/RStudio-Logo-White.png" height=40>
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/vsc-alpha.png" height=40>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/vsc-alpha.png" height=80>
 <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitkraken-logo-mono-light-hz.png" height=40>
 
 <!--
@@ -175,7 +181,7 @@ Gitkraken + terminal: most universal solution (I think)
 2. <b class="def">Staging area</b>: a temporary area where files are gathered and prepared for a commit
 3. <b class="def">Repository</b>: after the commit, the files are moved from the staging into the repository for permanent storage
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/staging.png" height=40>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/staging.png" height=200>
 
 ---
 
@@ -187,7 +193,7 @@ Gitkraken + terminal: most universal solution (I think)
 
 ## Optimize your workspace to follow this workshop
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/screenOrg.png" height=40>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/screenOrg.png" height=200>
 
 - **Slides** to follow the workshop instructions
 - **Chat/notepad** to socialize and take notes
@@ -233,7 +239,7 @@ git init # within working directory
 
 1. First do some science
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/science.gif" height=40>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/science.gif" height=100>
 
 2. Then commit―i.e. register on Git―a version of your science
 
@@ -248,7 +254,7 @@ git log
 
 3. Go make more science
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/moreScience.gif" height=40>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/moreScience.gif" height=100>
 
 4. Realize what you have done
 
@@ -306,7 +312,7 @@ git tag (tagname) (commit)
   2) Differ after some commits
   3) Goal: merge back with trunk
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/tree.jpg" height=40>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/tree.jpg" height=100>
 
 ---
 
@@ -341,13 +347,13 @@ git branch -d (branch name)  # recommended cleanup
 
 Create a file called `.gitignore` and chuck all that in it.
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitignore.png" height=40>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitignore.png" height=100>
 
 ---
 
 ## Example:
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitignoreExample.png" height=40>
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitignoreExample.png" height=100>
 
 ---
 
@@ -395,8 +401,9 @@ git push   # 3. Copy your local branch to remote
   - `man git`
 - (Very well-curated) official documentation: https://git-scm.com/doc
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/cheatSheet.jpg" height=40>
-* [Yes](https://lmddgtfy.net/?q=git%20cheat%20sheet).
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/cheatSheet.jpg" height=100>
+
+[Yes](https://lmddgtfy.net/?q=git%20cheat%20sheet)
 
 ---
 
