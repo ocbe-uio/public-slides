@@ -1,6 +1,6 @@
 🎬 Are you more in a watching than a reading mood right now? This content is also available on YouTube: https://youtu.be/JJhx7gAm5ec
 
-# Organize your research and teaching material<br>  with Git (and ![h:40](img/../../img/R.png), or whatever floats your boat)
+# Organize your research and teaching material<br>  with Git (and <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/R.png" height=40>, or whatever floats your boat)
 
 <!--
 I know this is an R group, but I wanna highlight the fact that sometimes you're on a
@@ -11,7 +11,7 @@ work project that doesn't involve R. You can still (and probably should!) use Gi
 
 Scientific programmer
 Oslo Centre for Biostatistics and Epidemiology ([OCBE](https://www.med.uio.no/imb/english/research/centres/ocbe/))
-![h:20](../img/GitHub-Mark-120px-plus.png) [ocbe-uio](https://github.com/ocbe-uio) ![h:20](../img/GitHub-Mark-120px-plus.png) [wleoncio](https://github.com/wleoncio)
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/GitHub-Mark-120px-plus.png" height=20> [ocbe-uio](https://github.com/ocbe-uio) <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/GitHub-Mark-120px-plus.png" height=20> [wleoncio](https://github.com/wleoncio)
 
 ---
 
@@ -20,8 +20,8 @@ Oslo Centre for Biostatistics and Epidemiology ([OCBE](https://www.med.uio.no/im
 # First, let's get _sooo_ meta
 
 ## About the slides
-:globe_with_meridians: Will be made available on ![h:30](../img/GitHub-Mark-Light-120px-plus.png) [ocbe-uio/public-slides](https://github.com/ocbe-uio/public-slides)
-:scroll: Licensed under ![h:30](../img/cc.xlarge.png)![h:30](../img/by.xlarge.png)![h:30](../img/sa.xlarge.png)
+:globe_with_meridians: Will be made available on <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/GitHub-Mark-Light-120px-plus.png" height=30> [ocbe-uio/public-slides](https://github.com/ocbe-uio/public-slides)
+:scroll: Licensed under <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/sa.xlarge.png" height=30>
 
 ## About this presentation
 
@@ -51,7 +51,7 @@ _class: bigh1
 
 "The Merriam-Webster dictionary defines 'git' as..."
 
-![h:600](../img/gitDefinition.png) ![h:600](../img/gitDefinition2.png)
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitDefinition.png" height=600> <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/gitDefinition2.png" height=600>
 
 <!--
 If you know the creator, you know he has a bit of a peculiar sense of humor.
@@ -88,7 +88,7 @@ But now, seriously...
 * GitHub
 	- Distributed workflows _are_ a Git feature
 	- ...albeit a secondary one. Git's main job is version control
-![h:100](../img/GitHub-Mark-Light-120px-plus.png)![h:100](../img/GitHub_Logo_White.png) ![h:100](../img/Git-Logo-White.png)
+<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/GitHub_Logo_White.png" height=100> <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/Git-Logo-White.png" height=100>
 
 <!--
 Git makes copies of the whole file (instead of incremental changes),
@@ -100,13 +100,13 @@ unlike SVN and CVS
 # Installing Git (last chance, for real this time)
 
 - General instructions: https://git-scm.com/download/
-- ![h:20](../img/226756-logo/png/linux.png) Linux
+- <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/linux.png" height=20> Linux
 	- It usually comes pre-installed (verify by running `git --version`)
 	- Otherwise, use your distro's package manager (apt, dnf, pacman...)
-- ![h:20](../img/226756-logo/png/apple.png) macOS
+- <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/apple.png" height=20> macOS
 	- Open a terminal and type `git --version`
 	- Plan B: install Xcode Command Line Tools
--  ![h:20](../img/226756-logo/png/windows.png) Windows
+-  <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/windows.png" height=20> Windows
 	- Download and execute the file on https://git-scm.com/download/win
 
 ---
@@ -116,7 +116,7 @@ _color: white
 -->
 ![bg blur:3px brightness:50%](../img/gitTerminal3.png)
 
-# Git is primarily text-based software (just like ![h:40](img/../../img/R.png)!)
+# Git is primarily text-based software (just like <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/img/R.png" height=40>!)
 
 :smiley: Perfect if you're looking for speed and/or use your keyboard a lot
 :rage: Not great if you like to use your mouse and/or don't care about speed
