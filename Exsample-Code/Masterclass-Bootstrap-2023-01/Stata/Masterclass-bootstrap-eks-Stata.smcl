@@ -1,0 +1,338 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}M:\OusBiostat\Kurs-foredrag\Masterclass\Masterclass-Bootstap\Eksempel\Eksempel-programmer\Masterclass-bootstrap-eks-Stata.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}21 Jan 2023, 21:04:54
+
+{com}. do "C:\Users\hfe\AppData\Local\Temp\STD3cbc_000000.tmp"
+{txt}
+{com}. // OCBE Masterclass Bootstrap 2023 - Stata eksempel (https://www.stata.com|/)
+. //    https://www.med.uio.no/imb/english/research/centres/ocbe/
+. //    https://www.ous-research.no/ocbe/
+. //    ved Harald Weedon-Fekjær <harald.weedon-fekjar@medisin.uio.no>
+. 
+. // Bootstrap i Stata:
+. // I Stata kan noen rutiner kjøre bootstrap direkte, mens endel andre krever
+. // at man henter ut de rette estimatene fra kjøringene. Hvis funksjonen
+. // ikke direkte støtter bootstrap må man først sjekke hvordan Stata lagerer
+. // de ulike resulatene av funksjon, så man vet hva som skal anvedes i 
+. // bootstrap kjøringen.
+. 
+. 
+. // ------------------------------------
+. // ----- Laster eksempel dataene: -----
+. // ------------------------------------
+. // NB: Husk å forandre filområde til der du har filen!
+. cd "M:\OusBiostat\Kurs-foredrag\Masterclass\Masterclass-Bootstap\Eksempel\data\"
+{res}M:\OusBiostat\Kurs-foredrag\Masterclass\Masterclass-Bootstap\Eksempel\data
+{txt}
+{com}. import delimited "RoykeSlutt.csv", delimiter(";") case(preserve) numericcols(2 3) 
+{res}{txt}(encoding automatically selected: ISO-8859-1)
+{res}{text}(3 vars, 58 obs)
+
+{com}. 
+. 
+. 
+. // -----------------------------------------------
+. // ------ 95% bootstrap konfidens intervall: -----
+. // -----------------------------------------------
+. 
+. // **********************************************************
+. // ***  Bootstrap: Gjennomsnittlig røykeslutt motivasjon: ***
+. // **********************************************************
+. bootstrap, reps(10000) seed(3) dots(1000): mean Motivasjon
+{res}{txt}(running {bf:mean} on estimation sample)
+
+Bootstrap replications ({res}10,000{txt})
+{hline 4}{c +}{hline 3} 1 {hline 3}{c +}{hline 3} 2 {hline 3}{c +}{hline 3} 3 {hline 3}{c +}{hline 3} 4 {hline 3}{c +}{hline 3} 5 
+..........
+{res}
+{txt}{col 1}Mean estimation{col 41}{lalign 13:Number of obs}{col 54} = {res}{ralign 6:57}
+{txt}{col 41}{lalign 13:Replications}{col 54} = {res}{ralign 6:10,000}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 14}{hline 12}
+{col 14}{c |}   Observed{col 26}   Bootstrap{col 37}         Norm{col 51}al-based
+{col 14}{c |}       mean{col 26}   std. err.{col 38}     [95% con{col 51}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 14}{hline 12}
+{space 2}Motivasjon {c |}{col 14}{res}{space 2} 8.491228{col 26}{space 2} .2528064{col 37}{space 5} 7.995737{col 51}{space 3}  8.98672
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 14}{hline 12}
+
+{com}. estat bootstrap, all
+
+{txt}Mean estimation{col 49}Number of obs{col 67}= {res}        57
+{txt}{col 49}Replications{col 67}= {res}     10000
+
+{col 1}{text}{hline 13}{c TT}{hline 12}{hline 11}{hline 13}{hline 12}{hline 10}{hline 6}
+{col 14}{text}{c |}    Observed{col 38}    Bootstrap
+{res}{col 14}{text}{c |}        mean{col 27}       Bias{col 38}    std. err.{col 51}  [95% conf. interval]
+{res}{col 1}{text}{hline 13}{c +}{hline 12}{hline 11}{hline 13}{hline 12}{hline 10}{hline 6}
+{col 1}{text}  Motivasjon{col 14}{c |}{result}{space 2} 8.4912281{col 27}{space 2}-.0027737{col 38}{space 2} .25280641{col 51}{space 2} 7.995737{col 63}{space 1}  8.98672{col 73}{text}   (N)
+{res}{col 14}{text}{c |}{col 51}{result}{space 2} 7.964912{col 63}{space 1} 8.964912{col 73}{text}   (P)
+{res}{col 14}{text}{c |}{col 51}{result}{space 2} 7.929824{col 63}{space 1} 8.929825{col 73}{text}  (BC)
+{res}{col 1}{text}{hline 13}{c BT}{hline 12}{hline 11}{hline 13}{hline 12}{hline 10}{hline 6}
+Key:{col 7}N: Normal
+{col 7}P: Percentile
+{col 6}BC: Bias-corrected
+{res}{txt}
+{com}. 
+. 
+. // *************************************************
+. // ***  Bootstrap: Median røykeslutt motivasjon: ***
+. // *************************************************
+. // I stata regner man ut median via "summarize ..., detail", mens
+. // den støter bootstrap direkte.
+. // Først kjører "summarize" finner navnet på variabelen vi skal bruke:
+. summarize Motivasjon, detail
+
+                         {txt}Motivasjon
+{hline 61}
+      Percentiles      Smallest
+ 1%    {res}        2              2
+{txt} 5%    {res}        4              3
+{txt}10%    {res}        6              4       {txt}Obs         {res}         57
+{txt}25%    {res}        8              5       {txt}Sum of wgt. {res}         57
+
+{txt}50%    {res}        9                      {txt}Mean          {res} 8.491228
+                        {txt}Largest       Std. dev.     {res} 1.909776
+{txt}75%    {res}       10             10
+{txt}90%    {res}       10             10       {txt}Variance      {res} 3.647243
+{txt}95%    {res}       10             10       {txt}Skewness      {res}-1.468471
+{txt}99%    {res}       10             10       {txt}Kurtosis      {res} 4.922424
+{txt}
+{com}. return list      // Ser på hva "summarize" lagerer av skjulte variable
+
+{txt}scalars:
+                  r(N) =  {res}57
+              {txt}r(sum_w) =  {res}57
+               {txt}r(mean) =  {res}8.491228070175438
+                {txt}r(Var) =  {res}3.647243107769423
+                 {txt}r(sd) =  {res}1.909775669488284
+           {txt}r(skewness) =  {res}-1.468471494900071
+           {txt}r(kurtosis) =  {res}4.922424350153513
+                {txt}r(sum) =  {res}484
+                {txt}r(min) =  {res}2
+                {txt}r(max) =  {res}10
+                 {txt}r(p1) =  {res}2
+                 {txt}r(p5) =  {res}4
+                {txt}r(p10) =  {res}6
+                {txt}r(p25) =  {res}8
+                {txt}r(p50) =  {res}9
+                {txt}r(p75) =  {res}10
+                {txt}r(p90) =  {res}10
+                {txt}r(p95) =  {res}10
+                {txt}r(p99) =  {res}10
+{txt}
+{com}. display r(p50)   // Dobbelt sjekker at  r(p50) inneholder median
+{res}9
+{txt}
+{com}. // Kjører bootstrap:
+. bootstrap r(p50), reps(10000) seed(3) nodots:summarize Motivasjon, detail
+{res}
+{txt}{p 0 9 2}
+warning: {bf:summarize} does not set {bf:e(sample)}, so no 
+observations will be excluded from the resampling because of 
+missing values or other reasons. To exclude observations, press 
+Break, save the data, drop any observations that are to be excluded, 
+and rerun {bf:bootstrap}.{p_end}
+{res}
+{txt}{col 1}Bootstrap results{col 57}{lalign 13:Number of obs}{col 70} = {res}{ralign 6:58}
+{txt}{col 57}{lalign 13:Replications}{col 70} = {res}{ralign 6:10,000}
+{p2colset 7 16 20 2}{...}
+
+{txt}{p2col :Command:}{res:summarize Motivasjon, detail }{p_end}
+{p2colset 9 16 20 2}{...}
+{p2col :_bs_1:}{res:r(p50)}{p_end}
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}   Observed{col 26}   Bootstrap{col 54}         Norm{col 67}al-based
+{col 14}{c |} coefficient{col 26}  std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}_bs_1 {c |}{col 14}{res}{space 2}        9{col 26}{space 2} .5681256{col 37}{space 1}   15.84{col 46}{space 3}0.000{col 54}{space 4} 7.886494{col 67}{space 3} 10.11351
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. estat bootstrap, all  // Skriver ut de ulike bootstrap estimatene
+
+{txt}Bootstrap results{col 49}Number of obs{col 67}= {res}        58
+{txt}{col 49}Replications{col 67}= {res}     10000
+{p2colset 7 16 20 2}{...}
+
+{txt}{p2col :Command:}{res:summarize Motivasjon, detail }{p_end}
+{p2colset 9 16 20 2}{...}
+{p2col :_bs_1:}{res:r(p50)}{p_end}
+
+{res}{col 1}{text}{hline 13}{c TT}{hline 12}{hline 11}{hline 13}{hline 12}{hline 10}{hline 6}
+{col 14}{text}{c |}    Observed{col 38}    Bootstrap
+{res}{col 14}{text}{c |} coefficient{col 27}       Bias{col 38}    std. err.{col 51}  [95% conf. interval]
+{res}{col 1}{text}{hline 13}{c +}{hline 12}{hline 11}{hline 13}{hline 12}{hline 10}{hline 6}
+{col 1}{text}       _bs_1{col 14}{c |}{result}{space 2}         9{col 27}{space 2}   .13925{col 38}{space 2} .56812561{col 51}{space 2} 7.886494{col 63}{space 1} 10.11351{col 73}{text}   (N)
+{res}{col 14}{text}{c |}{col 51}{result}{space 2}        8{col 63}{space 1}       10{col 73}{text}   (P)
+{res}{col 14}{text}{c |}{col 51}{result}{space 2}        9{col 63}{space 1}       10{col 73}{text}  (BC)
+{res}{col 1}{text}{hline 13}{c BT}{hline 12}{hline 11}{hline 13}{hline 12}{hline 10}{hline 6}
+Key:{col 7}N: Normal
+{col 7}P: Percentile
+{col 6}BC: Bias-corrected
+{res}{txt}
+{com}. 
+. 
+. // ***************************************************************
+. // *** Forskjell mellom de som slutter og de som ikke slutter: ***
+. // ***************************************************************
+. // Via regresjon:
+. bootstrap, bca reps(10000) seed(3) nodots: regress Motivasjon Sluttet6m
+{res}
+{txt}{col 1}Linear regression{col 57}{lalign 13:Number of obs}{col 70} = {res}{ralign 6:55}
+{txt}{col 57}{lalign 13:Replications}{col 70} = {res}{ralign 6:10,000}
+{txt}{col 57}{lalign 13:Wald chi2({res:1})}{col 70} = {res}{ralign 6:3.31}
+{txt}{col 57}{lalign 13:Prob > chi2}{col 70} = {res}{ralign 6:0.0688}
+{txt}{col 57}{lalign 13:R-squared}{col 70} = {res}{ralign 6:0.0383}
+{txt}{col 57}{lalign 13:Adj R-squared}{col 70} = {res}{ralign 6:0.0202}
+{txt}{col 57}{lalign 13:Root MSE}{col 70} = {res}{ralign 6:1.9128}
+
+{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}   Observed{col 26}   Bootstrap{col 54}         Norm{col 67}al-based
+{col 1}  Motivasjon{col 14}{c |} coefficient{col 26}  std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 3}Sluttet6m {c |}{col 14}{res}{space 2} .8416667{col 26}{space 2} .4624888{col 37}{space 1}    1.82{col 46}{space 3}0.069{col 54}{space 4}-.0647947{col 67}{space 3} 1.748128
+{txt}{space 7}_cons {c |}{col 14}{res}{space 2}    8.225{col 26}{space 2} .3263624{col 37}{space 1}   25.20{col 46}{space 3}0.000{col 54}{space 4} 7.585341{col 67}{space 3} 8.864659
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. estat bootstrap, all
+
+{txt}Linear regression{col 49}Number of obs{col 67}= {res}        55
+{txt}{col 49}Replications{col 67}= {res}     10000
+
+{col 1}{text}{hline 13}{c TT}{hline 12}{hline 11}{hline 13}{hline 12}{hline 10}{hline 6}
+{col 14}{text}{c |}    Observed{col 38}    Bootstrap
+{res}{col 1}{text}  Motivasjon{col 14}{c |} coefficient{col 27}       Bias{col 38}    std. err.{col 51}  [95% conf. interval]
+{res}{col 1}{text}{hline 13}{c +}{hline 12}{hline 11}{hline 13}{hline 12}{hline 10}{hline 6}
+{col 1}{text}   Sluttet6m{col 14}{c |}{result}{space 2} .84166667{col 27}{space 2} .0065365{col 38}{space 2} .46248878{col 51}{space 2}-.0647947{col 63}{space 1} 1.748128{col 73}{text}   (N)
+{res}{col 14}{text}{c |}{col 51}{result}{space 2}-.0637105{col 63}{space 1} 1.746936{col 73}{text}   (P)
+{res}{col 14}{text}{c |}{col 51}{result}{space 2}-.0788044{col 63}{space 1} 1.741667{col 73}{text}  (BC)
+{res}{col 14}{text}{c |}{col 51}{result}{space 2}-.0825826{col 63}{space 1} 1.741667{col 73}{text} (BCa)
+{res}{col 1}{text}       _cons{col 14}{c |}{result}{space 2}     8.225{col 27}{space 2}-.0018094{col 38}{space 2} .32636245{col 51}{space 2} 7.585341{col 63}{space 1} 8.864659{col 73}{text}   (N)
+{res}{col 14}{text}{c |}{col 51}{result}{space 2} 7.545238{col 63}{space 1} 8.822875{col 73}{text}   (P)
+{res}{col 14}{text}{c |}{col 51}{result}{space 2} 7.523809{col 63}{space 1} 8.808511{col 73}{text}  (BC)
+{res}{col 14}{text}{c |}{col 51}{result}{space 2} 7.465117{col 63}{space 1} 8.772727{col 73}{text} (BCa)
+{res}{col 1}{text}{hline 13}{c BT}{hline 12}{hline 11}{hline 13}{hline 12}{hline 10}{hline 6}
+Key:{col 8}N: Normal
+{col 8}P: Percentile
+{col 7}BC: Bias-corrected
+{col 6}BCa: Bias-corrected and accelerated
+{res}{txt}
+{com}. 
+. // Via "ttest":
+. bootstrap (r(mu_1)-r(mu_2)), reps(10000) seed(3) nodots:ttest Motivasjon, by(Sluttet6m)
+{res}
+{txt}{p 0 9 2}
+warning: {bf:ttest} does not set {bf:e(sample)}, so no 
+observations will be excluded from the resampling because of 
+missing values or other reasons. To exclude observations, press 
+Break, save the data, drop any observations that are to be excluded, 
+and rerun {bf:bootstrap}.{p_end}
+{res}
+{txt}{col 1}Bootstrap results{col 57}{lalign 13:Number of obs}{col 70} = {res}{ralign 6:58}
+{txt}{col 57}{lalign 13:Replications}{col 70} = {res}{ralign 6:10,000}
+{p2colset 7 16 20 2}{...}
+
+{txt}{p2col :Command:}{res:ttest Motivasjon, by(Sluttet6m) }{p_end}
+{p2colset 9 16 20 2}{...}
+{p2col :_bs_1:}{res:r(mu_1)-r(mu_2)}{p_end}
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}   Observed{col 26}   Bootstrap{col 54}         Norm{col 67}al-based
+{col 14}{c |} coefficient{col 26}  std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}_bs_1 {c |}{col 14}{res}{space 2}-.8416667{col 26}{space 2} .4654788{col 37}{space 1}   -1.81{col 46}{space 3}0.071{col 54}{space 4}-1.753988{col 67}{space 3} .0706551
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. estat bootstrap, all
+
+{txt}Bootstrap results{col 49}Number of obs{col 67}= {res}        58
+{txt}{col 49}Replications{col 67}= {res}     10000
+{p2colset 7 16 20 2}{...}
+
+{txt}{p2col :Command:}{res:ttest Motivasjon, by(Sluttet6m) }{p_end}
+{p2colset 9 16 20 2}{...}
+{p2col :_bs_1:}{res:r(mu_1)-r(mu_2)}{p_end}
+
+{res}{col 1}{text}{hline 13}{c TT}{hline 12}{hline 11}{hline 13}{hline 12}{hline 10}{hline 6}
+{col 14}{text}{c |}    Observed{col 38}    Bootstrap
+{res}{col 14}{text}{c |} coefficient{col 27}       Bias{col 38}    std. err.{col 51}  [95% conf. interval]
+{res}{col 1}{text}{hline 13}{c +}{hline 12}{hline 11}{hline 13}{hline 12}{hline 10}{hline 6}
+{col 1}{text}       _bs_1{col 14}{c |}{result}{space 2}-.84166667{col 27}{space 2} .0023811{col 38}{space 2} .46547883{col 51}{space 2}-1.753988{col 63}{space 1} .0706551{col 73}{text}   (N)
+{res}{col 14}{text}{c |}{col 51}{result}{space 2}-1.754116{col 63}{space 1} .0805527{col 73}{text}   (P)
+{res}{col 14}{text}{c |}{col 51}{result}{space 2}-1.747387{col 63}{space 1} .0863636{col 73}{text}  (BC)
+{res}{col 1}{text}{hline 13}{c BT}{hline 12}{hline 11}{hline 13}{hline 12}{hline 10}{hline 6}
+Key:{col 7}N: Normal
+{col 7}P: Percentile
+{col 6}BC: Bias-corrected
+{res}{txt}
+{com}. 
+. // Med bruk "ttest" og egen definert av funksjon:
+. program diffmean, rclass
+{txt}  1{com}.   ttest Motivasjon, by(Sluttet6m)
+{txt}  2{com}.   scalar m1 = r(mu_1)
+{txt}  3{com}.   scalar m2 = r(mu_2)
+{txt}  4{com}.   return scalar estm = m1-m2
+{txt}  5{com}. end
+{txt}
+{com}. bootstrap r(estm), reps(10000) seed(3) nodots: diffmean
+{res}
+{txt}{p 0 9 2}
+warning: {bf:diffmean} does not set {bf:e(sample)}, so no 
+observations will be excluded from the resampling because of 
+missing values or other reasons. To exclude observations, press 
+Break, save the data, drop any observations that are to be excluded, 
+and rerun {bf:bootstrap}.{p_end}
+{res}
+{txt}{col 1}Bootstrap results{col 57}{lalign 13:Number of obs}{col 70} = {res}{ralign 6:58}
+{txt}{col 57}{lalign 13:Replications}{col 70} = {res}{ralign 6:10,000}
+{p2colset 7 16 20 2}{...}
+
+{txt}{p2col :Command:}{res:diffmean}{p_end}
+{p2colset 9 16 20 2}{...}
+{p2col :_bs_1:}{res:r(estm)}{p_end}
+
+{res}{txt}{hline 13}{c TT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{col 14}{c |}   Observed{col 26}   Bootstrap{col 54}         Norm{col 67}al-based
+{col 14}{c |} coefficient{col 26}  std. err.{col 38}      z{col 46}   P>|z|{col 54}     [95% con{col 67}f. interval]
+{hline 13}{c +}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+{space 7}_bs_1 {c |}{col 14}{res}{space 2}-.8416667{col 26}{space 2} .4654788{col 37}{space 1}   -1.81{col 46}{space 3}0.071{col 54}{space 4}-1.753988{col 67}{space 3} .0706551
+{txt}{hline 13}{c BT}{hline 11}{hline 11}{hline 9}{hline 8}{hline 13}{hline 12}
+
+{com}. program drop diffmean
+{txt}
+{com}. estat bootstrap, all
+
+{txt}Bootstrap results{col 49}Number of obs{col 67}= {res}        58
+{txt}{col 49}Replications{col 67}= {res}     10000
+{p2colset 7 16 20 2}{...}
+
+{txt}{p2col :Command:}{res:diffmean}{p_end}
+{p2colset 9 16 20 2}{...}
+{p2col :_bs_1:}{res:r(estm)}{p_end}
+
+{res}{col 1}{text}{hline 13}{c TT}{hline 12}{hline 11}{hline 13}{hline 12}{hline 10}{hline 6}
+{col 14}{text}{c |}    Observed{col 38}    Bootstrap
+{res}{col 14}{text}{c |} coefficient{col 27}       Bias{col 38}    std. err.{col 51}  [95% conf. interval]
+{res}{col 1}{text}{hline 13}{c +}{hline 12}{hline 11}{hline 13}{hline 12}{hline 10}{hline 6}
+{col 1}{text}       _bs_1{col 14}{c |}{result}{space 2}-.84166667{col 27}{space 2} .0023811{col 38}{space 2} .46547883{col 51}{space 2}-1.753988{col 63}{space 1} .0706551{col 73}{text}   (N)
+{res}{col 14}{text}{c |}{col 51}{result}{space 2}-1.754116{col 63}{space 1} .0805527{col 73}{text}   (P)
+{res}{col 14}{text}{c |}{col 51}{result}{space 2}-1.747387{col 63}{space 1} .0863636{col 73}{text}  (BC)
+{res}{col 1}{text}{hline 13}{c BT}{hline 12}{hline 11}{hline 13}{hline 12}{hline 10}{hline 6}
+Key:{col 7}N: Normal
+{col 7}P: Percentile
+{col 6}BC: Bias-corrected
+{res}{txt}
+{com}. 
+{txt}end of do-file
+
+{com}. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}M:\OusBiostat\Kurs-foredrag\Masterclass\Masterclass-Bootstap\Eksempel\Eksempel-programmer\Masterclass-bootstrap-eks-Stata.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}21 Jan 2023, 21:07:33
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
