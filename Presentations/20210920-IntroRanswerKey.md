@@ -181,7 +181,7 @@ summary(trees)
 plot(trees)
 ```
 
-<img src="img/answerKey_files/figure-html/trees-1.png" width="672" />
+<img src="aux/answerKey_files/figure-html/trees-1.png" width="672" />
 
 ```r
 lm(Height ~ Girth + Volume, data = trees)
@@ -205,7 +205,7 @@ lm(Height ~ Girth + Volume, data = trees)
 boxplot(len ~ supp, data = ToothGrowth)
 ```
 
-<img src="img/answerKey_files/figure-html/guinea_pigs_supp-1.png" width="672" />
+<img src="aux/answerKey_files/figure-html/guinea_pigs_supp-1.png" width="672" />
 
 ```r
 Tooth_OJ <- ToothGrowth[ToothGrowth$supp == 'OJ', ]
@@ -233,7 +233,7 @@ t.test(Tooth_OJ$len, Tooth_VC$len)
 boxplot(len ~ dose, data = ToothGrowth)
 ```
 
-<img src="img/answerKey_files/figure-html/guinea_pigs_dose-1.png" width="672" />
+<img src="aux/answerKey_files/figure-html/guinea_pigs_dose-1.png" width="672" />
 
 ```r
 Tooth_d05 <- ToothGrowth[ToothGrowth$dose == 0.5, ]
@@ -338,7 +338,7 @@ plot(table(x))
 abline(v=mean(x), col='red')
 ```
 
-<img src="img/answerKey_files/figure-html/plotting-extra-1.png" width="672" />
+<img src="aux/answerKey_files/figure-html/plotting-extra-1.png" width="672" />
 
 # Reading and saving data
 
@@ -412,7 +412,7 @@ identical(vroom, within(mtcars, {wt <- wt / 0.4536; kpl <- mpg * 0.4251}))
 plot(vroom)
 ```
 
-<img src="img/answerKey_files/figure-html/dplyr-1.png" width="672" />
+<img src="aux/answerKey_files/figure-html/dplyr-1.png" width="672" />
 
 ```r
 round(cor(vroom), 2)
