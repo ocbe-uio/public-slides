@@ -173,12 +173,17 @@ pre, code {
 <tr>
 <td>2</td>
 <td>09 Nov<br />10:00-11:30</td>
-<td><strong>Git</strong> GUI<br />Using <strong>GitHub</strong> on RStudio (Stata users get some support)</td>
+<td><strong>Git</strong> GUI<br />Using <strong>GitHub on RStudio</strong> (Stata users get some support)</td>
 </tr>
 <tr>
 <td>3</td>
 <td>16 Nov<br />10:00-11:30</td>
-<td>Maintaining a <strong>GitHub</strong> repository: pull requests, merges, etc.</td>
+<td>Solely maintaining a <strong>GitHub</strong> repository<br />(pull, push, issues, merges)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>23 Nov<br />10:00-11:30</td>
+<td>Collaborating on <strong>GitHub</strong><br />(pull requests, merge conflicts, forks)</td>
 </tr>
 </tbody>
 </table>
@@ -780,7 +785,7 @@ pre, code {
 </li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="8" data-marpit-fragments="3" data-theme="default" data-style="section {
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-marpit-fragments="3" data-theme="default" data-style="section {
   background: white;
 }
 h1, h2, h3 {
@@ -847,27 +852,93 @@ pre, code {
 }
 .hljs-number {
   color: #FEA11B;
+};--marpit-advanced-background-split:50%;" data-marpit-advanced-background="background" data-marpit-advanced-background-split="right"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="vertical"><figure style="background-image:url(&quot;https://1000marcas.net/wp-content/uploads/2021/06/Git-Logo-1280x800.png&quot;);background-size:contain;"></figure><figure style="background-image:url(&quot;https://logosmarcas.net/wp-content/uploads/2020/12/GitHub-Logo.png&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="50%" height="720"><section id="8" data-marpit-fragments="3" data-theme="default" data-style="section {
+  background: white;
 }
-;">
+h1, h2, h3 {
+  color: #B60000;
+}
+a {
+  color: #86A4F7;
+}
+table {
+  border-collapse: collapse;
+}
+pre, code {
+  color: #E6ECFF;
+  background-color: #111;
+  border-width: 0px;
+  border-radius: 10px;
+  border-style: inset;
+}
+.hljs-comment {
+  color: #777;
+}
+.hljs-meta {
+  color: cadetblue;
+}
+.hljs-string {
+  color: #2EC483;
+}
+.hljs-keyword {
+  color: #86A4F7;
+}
+.hljs-number {
+  color: #FEA11B;
+}
+" style="--theme:default;--style:section {
+  background: white;
+}
+h1, h2, h3 {
+  color: #B60000;
+}
+a {
+  color: #86A4F7;
+}
+table {
+  border-collapse: collapse;
+}
+pre, code {
+  color: #E6ECFF;
+  background-color: #111;
+  border-width: 0px;
+  border-radius: 10px;
+  border-style: inset;
+}
+.hljs-comment {
+  color: #777;
+}
+.hljs-meta {
+  color: cadetblue;
+}
+.hljs-string {
+  color: #2EC483;
+}
+.hljs-keyword {
+  color: #86A4F7;
+}
+.hljs-number {
+  color: #FEA11B;
+};--marpit-advanced-background-split:50%;" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right">
 <h2>Git is <em>not</em></h2>
 <ul>
 <li data-marpit-fragment="1">Just for software developers</li>
 <li data-marpit-fragment="2">A good place to dump
 <ul>
 <li>Large files (e.g. data)</li>
-<li>Files that are generated from other files (e.g. a .pdf from a .tex)</li>
+<li>Files generated from other files (e.g. .pdf from .tex)</li>
 </ul>
 </li>
 <li data-marpit-fragment="3">Git<strong>Hub</strong>
 <ul>
-<li>Distributed workflows (&quot;Single Source Of Truth&quot;) <em>are</em> a Git feature</li>
-<li>...albeit a secondary one. <strong>Git's main job is version control</strong></li>
-<li>Also, there are other places to keep your remote repo</li>
+<li>Distributed workflows (SSOT) <em>are</em> a Git feature</li>
+<li>but a secondary one. Git's main job is version control</li>
+<li>There are other places to keep your SSOT</li>
 </ul>
 </li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-theme="default" data-style="section {
+</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-theme="default" data-style="section {
   background: white;
 }
 h1, h2, h3 {
@@ -934,7 +1005,7 @@ pre, code {
 }
 .hljs-number {
   color: #FEA11B;
-};--marpit-advanced-background-split:50%;" data-marpit-advanced-background="background" data-marpit-advanced-background-split="left"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;http://www.phdcomics.com/comics/archive/phd101212s.gif&quot;);"></figure></div></section></foreignObject><foreignObject width="50%" height="720" x="50%"><section id="9" data-theme="default" data-style="section {
+};--marpit-advanced-background-split:50%;" data-marpit-advanced-background="background" data-marpit-advanced-background-split="left"><div data-marpit-advanced-background-container="true" data-marpit-advanced-background-direction="horizontal"><figure style="background-image:url(&quot;http://www.phdcomics.com/comics/archive/phd101212s.gif&quot;);background-size:contain;"></figure></div></section></foreignObject><foreignObject width="50%" height="720" x="50%"><section id="9" data-theme="default" data-style="section {
   background: white;
 }
 h1, h2, h3 {
@@ -1002,7 +1073,7 @@ pre, code {
 .hljs-number {
   color: #FEA11B;
 };--marpit-advanced-background-split:50%;" data-marpit-advanced-background="content" data-marpit-advanced-background-split="left">
-<h1>The elevator pitch for Git</h1>
+<h1>The elevator pitch</h1>
 <ul>
 <li><strong>Curated</strong> work history</li>
 <li><strong>Parallel versions</strong> of the same files
@@ -1249,8 +1320,12 @@ pre, code {
   color: #FEA11B;
 }
 ;color:white;" data-marpit-advanced-background="content">
-<h1>Git is <em>primarily</em> text-based software (just like <img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/9131603a1343622f09412b3ce25f22569caf4735/Presentations/aux/R.png" alt="h:40" style="height:40px;" />!)</h1>
-<p><img class="emoji" draggable="false" alt="😃" src="https://twemoji.maxcdn.com/2/svg/1f603.svg" data-marp-twemoji=""/> Perfect if you're looking for speed and reproducibility<br />
+<h1>Do not fear your keyboard!</h1>
+<ul>
+<li>Git is <em>primarily</em> text-based software</li>
+<li>Just like R, Stata...</li>
+</ul>
+<p><img class="emoji" draggable="false" alt="😃" src="https://twemoji.maxcdn.com/2/svg/1f603.svg" data-marp-twemoji=""/> Perfect if you're looking for speed, automation and <strong>reproducibility</strong><br />
 <img class="emoji" draggable="false" alt="😡" src="https://twemoji.maxcdn.com/2/svg/1f621.svg" data-marp-twemoji=""/> Not great if you like to use your mouse a lot</p>
 <p>...but even if you identify with latter category, you may love using Git!</p>
 </section>
@@ -1336,7 +1411,7 @@ pre, code {
 <img class="emoji" draggable="false" alt="😡" src="https://twemoji.maxcdn.com/2/svg/1f621.svg" data-marp-twemoji=""/> Adds another app to your workflow</li>
 </ul>
 </section>
-</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13" data-marpit-fragments="6" data-theme="default" data-style="section {
+</foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="13" data-marpit-fragments="5" data-theme="default" data-style="section {
   background: white;
 }
 h1, h2, h3 {
@@ -1416,7 +1491,7 @@ pre, code {
 <li data-marpit-fragment="2"><b class="def">Commit</b>: One particular version/snapshot of your WD
 <ul>
 <li>A repo is a collection of commits</li>
-<li>Basic workflow behavior
+<li>Basic workflow behavior:
 <ul>
 <li>Save (<kbd>Ctrl</kbd><kbd>S</kbd>) as much as you want between commits</li>
 <li>Saves are ignored, only commits matter (unlike Dropbox)</li>
@@ -1427,10 +1502,9 @@ pre, code {
 <li data-marpit-fragment="3"><b class="def">Hash</b>: a 40-character unique alfanumeric identifier of a commit
 <ul>
 <li data-marpit-fragment="4">a4508a3d857eg282aced33ba75d18ede34fde99f</li>
-<li data-marpit-fragment="5">Don't worry, you won't need to know them by heart</li>
 </ul>
 </li>
-<li data-marpit-fragment="6"><b class="def">Pointer</b>: a word reference to a commit (e.g. <code>HEAD</code>, <code>main</code>, <code>origin/main</code>)</li>
+<li data-marpit-fragment="5"><b class="def">Pointer</b>: a word reference to a commit (e.g. <code>HEAD</code>, <code>main</code>, <code>origin/main</code>)</li>
 </ol>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-theme="default" data-style="section {
@@ -1568,9 +1642,9 @@ pre, code {
 .hljs-number {
   color: #FEA11B;
 };--marpit-advanced-background-split:50%;" data-marpit-advanced-background="content" data-marpit-advanced-background-split="right">
-<h1>Where on Git are your files?</h1>
+<h1>Where does Git store your files?</h1>
 <ol>
-<li><b class="def">Working directory</b>: the files as you see and work with in your file explorer</li>
+<li><b class="def">Working directory</b> (i.e., not Git): the files as you see and work with in your file explorer</li>
 <li><b class="def">Staging area</b>: a <em>list</em> of files that are ready to commit</li>
 <li><b class="def">Repository</b>: all previously commited version of your files</li>
 </ol>
@@ -1784,15 +1858,15 @@ pre, code {
   color: #FEA11B;
 }
 ;">
-<h2>Configuring your user info</h2>
-<pre><code class="language-bash"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap>git config --global user.name <span class="hljs-string">&quot;<span class="hljs-variable">$name</span>&quot;</span>
-git config --global user.email <span class="hljs-string">&quot;<span class="hljs-variable">$email</span>&quot;</span> <span class="hljs-comment"># GitHub user? use your GH e-mail</span>
-</span></span></foreignObject></svg></code></pre>
-<p>Tip: Peek at your config file: <code>cat ~/.gitconfig</code><br />
-Top tip: Add some aliases</p>
 <h2>Initializing a repository</h2>
 <pre><code class="language-bash"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap>git init <span class="hljs-comment"># within working directory</span>
 </span></span></foreignObject></svg></code></pre>
+<h2>Configuring your user info</h2>
+<pre><code class="language-bash"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap>git config --<span class="hljs-built_in">local</span> user.name <span class="hljs-string">&quot;<span class="hljs-variable">$name</span>&quot;</span>  <span class="hljs-comment"># or --global for the whole system</span>
+git config --<span class="hljs-built_in">local</span> user.email <span class="hljs-string">&quot;<span class="hljs-variable">$email</span>&quot;</span> <span class="hljs-comment"># GitHub user? use your GH e-mail</span>
+</span></span></foreignObject></svg></code></pre>
+<p>Tip: Peek at your config file (<code>git config --list</code>)<br />
+Top tip: Add some aliases</p>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="17" data-theme="default" data-style="section {
   background: white;
@@ -1951,7 +2025,7 @@ pre, code {
 </ol>
 <p><img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/9131603a1343622f09412b3ce25f22569caf4735/Presentations/aux/moreScience.gif" alt="" /></p>
 <ol start="4">
-<li>Realize what you have done</li>
+<li>See what you have done</li>
 </ol>
 <pre><code class="language-bash"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap>git status  <span class="hljs-comment"># Pro tip: wrap with &quot;watch&quot; to auto-update</span>
 git diff <span class="hljs-variable">$file</span>
