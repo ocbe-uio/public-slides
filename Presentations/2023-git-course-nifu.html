@@ -155,7 +155,7 @@ pre, code {
   color: #FEA11B;
 }
 ;">
-<h1>Course plan</h1>
+<h1>Course plan (subject to change)</h1>
 <table>
 <thead>
 <tr>
@@ -168,22 +168,22 @@ pre, code {
 <tr>
 <td>1</td>
 <td>02 Nov<br />10:00-11:30</td>
-<td><strong>Git</strong> in practice<br />For all users, no matter how or where they work</td>
+<td><strong>Git</strong> basics+ (status, add, commit, log, diff, reset, branch)<br />For all users, no matter how or where they work</td>
 </tr>
 <tr>
 <td>2</td>
 <td>09 Nov<br />10:00-11:30</td>
-<td><strong>Git</strong> GUI<br />Using <strong>GitHub on RStudio</strong> (Stata users get some support)</td>
+<td><strong>Git + GitHub</strong> on <strong>RStudio</strong> (Stata/others get limited support)<br />Changing <strong>Git</strong> history (amend, squash, fixup)</td>
 </tr>
 <tr>
 <td>3</td>
 <td>16 Nov<br />10:00-11:30</td>
-<td>Solely maintaining a <strong>GitHub</strong> repository<br />(pull, push, issues, merges)</td>
+<td>Solely maintaining a <strong>GitHub</strong> repository<br />(fetch, pull, push, issues, merge, rebase)</td>
 </tr>
 <tr>
 <td>4</td>
 <td>23 Nov<br />10:00-11:30</td>
-<td>Collaborating on <strong>GitHub</strong><br />(pull requests, merge conflicts, forks)</td>
+<td>Collaborating on <strong>GitHub</strong><br />(pull requests, merge conflicts, blame, fork)</td>
 </tr>
 </tbody>
 </table>
@@ -331,7 +331,7 @@ pre, code {
 <p><img class="emoji" draggable="false" alt="✋" src="https://twemoji.maxcdn.com/2/svg/270b.svg" data-marp-twemoji=""/> Questions/comment at any time (in-person or <a href="https://app.sli.do/event/t6uWWmSQS6JfQxggsvtKG9/live/questions">Slido #4152775</a>)<br />
 <img class="emoji" draggable="false" alt="💻" src="https://twemoji.maxcdn.com/2/svg/1f4bb.svg" data-marp-twemoji=""/> Software requirement: Git <a href="https://git-scm.com/download/">https://git-scm.com/download/</a></p>
 </section>
-</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4" data-theme="default" data-style="section {
+</foreignObject><foreignObject width="1280" height="720" data-marpit-advanced-background="pseudo"><section style="" data-marpit-advanced-background="pseudo"></section></foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="4" data-marpit-fragments="7" data-theme="default" data-style="section {
   background: white;
 }
 h1, h2, h3 {
@@ -401,26 +401,18 @@ pre, code {
 }
 ;">
 <h1>My personal history with Git</h1>
+<h2>As a statistician</h2>
 <ul>
-<li>
-<p>Started in 2013</p>
-</li>
-<li>
-<p>Used it for every single project I would start at work</p>
-</li>
-<li>
-<p>Just the basics until summer 2016 (start of PhD thesis)</p>
-</li>
-<li>
-<p>2017: started using &quot;<strong>Git</strong> advanced&quot; and <strong>GitHub</strong></p>
-</li>
-<li>
-<p>2023: GitHub as my main work hub</p>
-<ul>
-<li><a href="https://github.com/wleoncio">https://github.com/wleoncio</a></li>
-<li><a href="https://github.com/ocbe-uio">https://github.com/ocbe-uio</a></li>
+<li data-marpit-fragment="1">Started using Git (for R packages) in 2013</li>
+<li data-marpit-fragment="2">Used it for <em>every single project</em> at work and home (software and otherwise)</li>
+<li data-marpit-fragment="3">Just the basics until summer 2016 (start of PhD thesis)</li>
+<li data-marpit-fragment="4">2017: started using &quot;<strong>Git</strong> advanced&quot; and <strong>GitHub</strong></li>
 </ul>
-</li>
+<h2>As a software engineer</h2>
+<ul>
+<li data-marpit-fragment="5">Fall 2018: Started working as Research Software Engineer at UiO</li>
+<li data-marpit-fragment="6">2019: Senior engineer at OCBE: maintaining dozens of repositories  (<a href="https://github.com/ocbe-uio">ocbe-uio</a>)</li>
+<li data-marpit-fragment="7">2023: GitHub as my main work hub  (<a href="https://github.com/wleoncio">wleoncio</a>)</li>
 </ul>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section data-theme="default" data-style="section {
@@ -1946,9 +1938,9 @@ pre, code {
 <li>Then commit―i.e. register on Git―a version of your science</li>
 </ol>
 <pre><code class="language-bash"><svg data-marp-fitting="svg" data-marp-fitting-code><foreignObject><span data-marp-fitting-svg-content><span data-marp-fitting-svg-content-wrap>git status
-git add <span class="hljs-variable">$file</span>
+git add <span class="hljs-variable">$file</span>  <span class="hljs-comment"># Pro tip: --patch to hand-pick changes</span>
 git commit -m <span class="hljs-string">&quot;<span class="hljs-variable">$message</span>&quot;</span>
-git <span class="hljs-built_in">log</span>  <span class="hljs-comment"># Pro tip: try these options: --oneline --graph --all</span>
+git <span class="hljs-built_in">log</span>        <span class="hljs-comment"># Pro tip: try these options: --oneline --graph --all</span>
 </span></span></foreignObject></svg></code></pre>
 </section>
 </foreignObject></svg><svg data-marpit-svg="" viewBox="0 0 1280 720"><foreignObject width="1280" height="720"><section id="18" data-theme="default" data-style="section {
