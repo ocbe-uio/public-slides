@@ -1,6 +1,49 @@
+# Preamble
+
 🎬 Are you more in a watching than a reading mood right now? This content is also available on YouTube: https://youtu.be/JJhx7gAm5ec
 
-# Organize your research and teaching material<br>  with Git (and <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/R.png" height=40>, or whatever floats your boat)
+For easier navigation of this document, you can refer to the table of contents below.
+
+1. [Preamble](#preamble)
+2. [Organize your research and teaching material with Git (and , or whatever floats your boat)](#organize-your-research-and-teaching-material-with-git-and--or-whatever-floats-your-boat)
+3. [First, let's get _sooo_ meta](#first-lets-get-sooo-meta)
+4. [What Git is and what it isn't](#what-git-is-and-what-it-isnt)
+5. [Installing Git (last chance, for real this time)](#installing-git-last-chance-for-real-this-time)
+6. [Git is primarily text-based software (just like !)](#git-is-primarily-text-based-software-just-like-)
+7. [Graphical interfaces to Git](#graphical-interfaces-to-git)
+8. [Git lingo, simplified](#git-lingo-simplified)
+9. [Where on Git are your files?](#where-on-git-are-your-files)
+10. [One last thing before we start working](#one-last-thing-before-we-start-working)
+11. [Basic Git Commands](#basic-git-commands)
+12. [Taking it up a notch](#taking-it-up-a-notch)
+13. [Git's greatest strength](#gits-greatest-strength)
+14. [Ignoring files](#ignoring-files)
+15. [Lightning round?](#lightning-round)
+16. [Supplementary material](#supplementary-material)
+17. [Software used in this presentation](#software-used-in-this-presentation)
+18. [Reference](#reference)
+19. [Credits](#credits)
+
+<!--
+# TODO: add these instructions to this file?
+- [ ] Alle som skal delta må på forhånd lese dine slides frem til og med «Git lingo, simplified».
+- [ ] Kan også flytte «Git's greatest strength» til tidligere som de leser på forhånd.
+- [ ] Alle må ha installert Git (samt Rstudio, R, osv, men det bør gå bra).
+- [ ] Dersom de ikke får til installasjon så må de spørre oss (deg om de er folk du har invitert, spørre oss om de er fra NIFU) minst en time før første økt.
+
+
+# TODO: add plan for the workshop
+- Økt nr 1: Fra ca «Where on Git are your files?” til => slutten.
+	- Øvelse: Alle skal prøve med sitt eget lokale Git-prosjekt (ikke github enda).
+  - Ingen krav til å bruke Rstudio/R. (Kan være vi får med noen som bruker Stata)
+- Økt nr 2: Sette opp Github-konto for Rstudio integration (credentials, etc).
+- Økt nr 3: Github, pull requests, merge, osv. For en Github repo som man kun har alene (så ingen merge conflict, etc)
+- Økt nr 4: Github collaboration, og alt som kan skje + å være en github repo maintainer.
+
+# TODO: alter slides, not this file
+-->
+
+# Organize your research and teaching material with Git (and <img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/R.png" height=20>, or whatever floats your boat)
 
 <!--
 I know this is an R group, but I wanna highlight the fact that sometimes you're on a
@@ -9,11 +52,11 @@ work project that doesn't involve R. You can still (and probably should!) use Gi
 
 **Waldir Leôncio Netto**
 
-Scientific programmer<br>
+Research Software Engineer<br>
 Oslo Centre for Biostatistics and Epidemiology ([OCBE](https://www.med.uio.no/imb/english/research/centres/ocbe/))<br>
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/GitHub-Mark-120px-plus.png" height=20><br>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/GitHub-Mark-120px-plus.png" height=20>
 [ocbe-uio](https://github.com/ocbe-uio)<br>
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/GitHub-Mark-120px-plus.png" height=20><br>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/GitHub-Mark-120px-plus.png" height=20>
 [wleoncio](https://github.com/wleoncio)
 
 ---
@@ -23,9 +66,9 @@ Oslo Centre for Biostatistics and Epidemiology ([OCBE](https://www.med.uio.no/im
 # First, let's get _sooo_ meta
 
 ## About the slides
-:globe_with_meridians: Will be made available on <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/GitHub-Mark-Light-120px-plus.png" height=30><br>
+:globe_with_meridians: Will be made available on <img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/GitHub-Mark-Light-120px-plus.png" height=30><br>
 [ocbe-uio/public-slides](https://github.com/ocbe-uio/public-slides)<br>
-:scroll: Licensed under <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/cc.xlarge.png" height=30><img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/by.xlarge.png" height=30><img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/sa.xlarge.png" height=30>
+:scroll: Licensed under <img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/cc.xlarge.png" height=30><img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/by.xlarge.png" height=30><img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/sa.xlarge.png" height=30>
 
 ## About this presentation
 
@@ -55,7 +98,7 @@ _class: bigh1
 
 "The Merriam-Webster dictionary defines 'git' as..."
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/gitDefinition.png" height=600> <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/gitDefinition2.png" height=600>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/gitDefinition.png" height=600> <img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/gitDefinition2.png" height=600>
 
 <!--
 If you know the creator, you know he has a bit of a peculiar sense of humor.
@@ -93,7 +136,7 @@ But now, seriously...
 	- Distributed workflows _are_ a Git feature
 	- ...albeit a secondary one. Git's main job is version control
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/GitHub_Logo_White.png" height=50> is different from <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/Git-Logo-White.png" height=50>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/GitHub_Logo_White.png" height=50> is different from <img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/Git-Logo-White.png" height=50>
 
 <!--
 Git makes copies of the whole file (instead of incremental changes),
@@ -105,13 +148,13 @@ unlike SVN and CVS
 # Installing Git (last chance, for real this time)
 
 - General instructions: https://git-scm.com/download/
-- <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/linux.png" height=20> Linux
+- <img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/linux.png" height=20> Linux
 	- It usually comes pre-installed (verify by running `git --version`)
 	- Otherwise, use your distro's package manager (apt, dnf, pacman...)
-- <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/apple.png" height=20> macOS
+- <img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/apple.png" height=20> macOS
 	- Open a terminal and type `git --version`
 	- Plan B: install Xcode Command Line Tools
--  <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/windows.png" height=20> Windows
+-  <img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/windows.png" height=20> Windows
 	- Download and execute the file on https://git-scm.com/download/win
 
 ---
@@ -119,9 +162,9 @@ unlike SVN and CVS
 <!--
 _color: white
 -->
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/gitTerminal3.png" height=40>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/gitTerminal3.png" height=40>
 
-# Git is primarily text-based software (just like <img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/R.png" height=40>!)
+# Git is primarily text-based software (just like <img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/R.png" height=40>!)
 
 :smiley: Perfect if you're looking for speed and/or use your keyboard a lot<br>
 :rage: Not great if you like to use your mouse and/or don't care about speed
@@ -145,9 +188,9 @@ _color: white
 
 	<b data-marpit-fragment> :ballot_box_with_check: Chosen tool for this talk (+ terminal)!	</b>
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/RStudio-Logo-White.png" height=40>
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/vsc-alpha.png" height=80>
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/gitkraken-logo-mono-light-hz.png" height=40>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/RStudio-Logo-White.png" height=40>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/vsc-alpha.png" height=80>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/gitkraken-logo-mono-light-hz.png" height=40>
 
 <!--
 Reasons to bring up VSC:
@@ -181,7 +224,7 @@ Gitkraken + terminal: most universal solution (I think)
 2. <b class="def">Staging area</b>: a temporary area where files are gathered and prepared for a commit
 3. <b class="def">Repository</b>: after the commit, the files are moved from the staging into the repository for permanent storage
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/staging.png" height=200>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/staging.png" height=200>
 
 ---
 
@@ -193,7 +236,7 @@ Gitkraken + terminal: most universal solution (I think)
 
 ## Optimize your workspace to follow this workshop
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/screenOrg.png" height=200>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/screenOrg.png" height=200>
 
 - **Slides** to follow the workshop instructions
 - **Chat/notepad** to socialize and take notes
@@ -239,7 +282,7 @@ git init # within working directory
 
 1. First do some science
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/science.gif" height=300>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/science.gif" height=300>
 
 2. Then commit―i.e. register on Git―a version of your science
 
@@ -254,7 +297,7 @@ git log
 
 3. Go make more science
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/moreScience.gif" height=300>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/moreScience.gif" height=300>
 
 4. Realize what you have done
 
@@ -312,7 +355,7 @@ git tag (tagname) (commit)
   2) Differ after some commits
   3) Goal: merge back with trunk
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/tree.jpg" height=300>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/tree.jpg" height=300>
 
 ---
 
@@ -347,13 +390,13 @@ git branch -d (branch name)  # recommended cleanup
 
 Create a file called `.gitignore` and chuck all that in it.
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/gitignore.png" height=300>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/gitignore.png" height=300>
 
 ---
 
 ## Example:
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/gitignoreExample.png" height=300>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/gitignoreExample.png" height=300>
 
 ---
 
@@ -401,7 +444,7 @@ git push   # 3. Copy your local branch to remote
   - `man git`
 - (Very well-curated) official documentation: https://git-scm.com/doc
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/cheatSheet.jpg" height=300>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/cheatSheet.jpg" height=300>
 
 [Yes](https://lmddgtfy.net/?q=git%20cheat%20sheet)
 
@@ -416,9 +459,9 @@ git push   # 3. Copy your local branch to remote
 - GitKraken: Free Git GUI for Windows, Mac, Linux
   https://www.gitkraken.com/
 
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/marp-white.png" height=40>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/marp-white.png" height=40>
 <img src="https://raw.githubusercontent.com/VSCodium/vscodium/master/src/resources/linux/code.png" height=40>
-<img src="https://github.com/ocbe-uio/public-slides/blob/main/Presentations/aux/gitkraken-logo-mono-light-hz.png" height=40>
+<img src="https://raw.githubusercontent.com/ocbe-uio/public-slides/main/Presentations/aux/gitkraken-logo-mono-light-hz.png" height=40>
 
 <!-- Getting used to the VSC environment could be useful for GitHub users due to the upcoming Codespaces -->
 
