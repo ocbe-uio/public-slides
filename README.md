@@ -11,3 +11,9 @@ Please prefix your files with the presentation date in the format `YYYYMMDD-` so
 **Attention**: this repository is licensed by _Creative Commons Attribution Share Alike 4.0 International_, meaning all content here is subjected to the same license (except for files in the `Presentations/aux` folder which were not created by the authors). If you want to know what this implies, please take a look at [this](https://choosealicense.com/licenses/cc-by-sa-4.0/) and [this](https://creativecommons.org/licenses/by-sa/4.0/). You can find some nice, high-resolution CC icons [here](https://creativecommons.org/about/downloads/).
 
 Before uploading content, we suggest adding the license information to your slides. You can read more about this [here](https://creativecommons.org/choose/results-one?license_code=by-sa&amp;jurisdiction=&amp;version=4.0&amp;lang=en).
+
+# Where are the presentations
+
+You can find the presentations in the `Presentations` folder. The HTML presentations are best viewed on the link below:
+
+https://ocbe-uio.github.io/public-slides/Presentations/
