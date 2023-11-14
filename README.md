@@ -12,8 +12,8 @@ Please prefix your files with the presentation date in the format `YYYYMMDD-` so
 
 Before uploading content, we suggest adding the license information to your slides. You can read more about this [here](https://creativecommons.org/choose/results-one?license_code=by-sa&amp;jurisdiction=&amp;version=4.0&amp;lang=en).
 
-# Where are the presentations
+# Where are the presentations?
 
-You can find the presentations in the `Presentations` folder. The HTML presentations are best viewed on the link below:
+You can find the presentations in the [Presentations folder](https://github.com/ocbe-uio/public-slides/tree/main/Presentations). The HTML presentations are best viewed on the link below:
 
 <https://ocbe-uio.github.io/public-slides/Presentations/>
