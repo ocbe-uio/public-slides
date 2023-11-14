@@ -16,4 +16,4 @@ Before uploading content, we suggest adding the license information to your slid
 
 You can find the presentations in the `Presentations` folder. The HTML presentations are best viewed on the link below:
 
-https://ocbe-uio.github.io/public-slides/Presentations/
+<https://ocbe-uio.github.io/public-slides/Presentations/>
