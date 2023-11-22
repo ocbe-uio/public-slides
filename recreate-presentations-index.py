@@ -8,7 +8,7 @@ exclude = ["aux", "index.html"]
 # Generating HTML
 out = open("Presentations/index.html", mode = "w")
 out.write("<h1>Presentations</h1>\n")
-out.write("<ol>")
+out.write("<ol type='I'>")
 for ff in files:
   if ff in exclude:
     continue
