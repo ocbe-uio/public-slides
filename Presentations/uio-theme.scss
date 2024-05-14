@@ -1,0 +1,43 @@
+/*-- scss:defaults --*/
+
+/*
+  UiO colors
+  For details (e.g. use cases), see
+  https://www.uio.no/om/designmanual/profilelementer/fargepalett/index.html
+*/
+$roed-segl: #b60000;
+$svart: #000000;
+$graa: #b2b3b7;
+$blaa: #3e31d6;
+$lysblaa: #86a4f7;
+$blaatone: #e6ecff;
+$groenn: #2ec483;
+$lysgroenn: #6ce1ab;
+$groenntone: #ceffdf;
+$roed: #dd0000;
+$lysroed: #fb6666;
+$roedtone: #ffe0e0;
+$oransje: #fea11b;
+$lysoransje: #fdcb87;
+$oransjetone: #ffe8d4;
+$gul: #fffea7;
+
+// Applying colors
+$link-color: $lysblaa;
+$link-color-hover: $blaatone;
+
+/* UiO fonts
+  For details (e.g. use cases), see
+  https://www.uio.no/om/designmanual/profilelementer/typografi/index.html
+*/
+$font-family-sans-serif: "Helvetica", sans-serif;
+
+/*-- scss:rules --*/
+
+.invert {
+  filter: invert(1);
+}
+.reveal .slide-logo {
+  height: 10% !important;
+  max-height: unset !important;
+}
