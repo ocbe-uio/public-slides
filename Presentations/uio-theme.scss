@@ -22,15 +22,29 @@ $lysoransje: #fdcb87;
 $oransjetone: #ffe8d4;
 $gul: #fffea7;
 
-// Applying colors
-$link-color: $lysblaa;
-$link-color-hover: $blaatone;
+/*
+  Applying colors
+  https://quarto.org/docs/output-formats/html-themes.html#sass-variables
+  https://quarto.org/docs/presentations/revealjs/themes.html
+*/
+$link-color: $blaatone;
+$link-color-hover: $lysblaa;
+$code-block-background-color: $svart;
+$code-block-border-color: $svart;
+$code-color: white;
+$callout-color-note: $blaa;
+$callout-color-tip: $lysgroenn;
+$callout-color-caution: $roed;
+$callout-color-warning: $oransje;
+$callout-color-important: $gul;
 
-/* UiO fonts
+/*
+  UiO fonts
   For details (e.g. use cases), see
   https://www.uio.no/om/designmanual/profilelementer/typografi/index.html
 */
-$font-family-sans-serif: "Helvetica", sans-serif;
+$font-family-sans-serif: "Arial", sans-serif;
+$font-family-monospace: "Fira Code", monospace;
 
 /*-- scss:rules --*/
 
@@ -40,4 +54,44 @@ $font-family-sans-serif: "Helvetica", sans-serif;
 .reveal .slide-logo {
   height: 10% !important;
   max-height: unset !important;
+}
+
+table {
+  border-collapse: collapse;
+  border-top: 2px solid white;
+  border-bottom: 2px solid white;
+}
+
+table th {
+  background-color: $roed-segl;
+  text-decoration-color: white;
+}
+
+table td {
+  border: 0px solid black !important;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.blink {
+  animation: blink 1.8s step-start infinite;
+}
+
+.roed-text {
+  color: $roed;
+}
+
+em {
+  font-style: italic;
+  color: $lysblaa;
+  text-shadow: 1px 1px 2px $svart;
+}
+
+.black-border {
+  color: white;
+  text-shadow: 2px 2px 2px black, -2px -2px 2px black, -2px 2px 2px black, 2px -2px 2px black;
 }
