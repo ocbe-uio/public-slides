@@ -1,0 +1,323 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      18.0
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2023 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: 40-user 32-core network, expiring 21 Mar 2025
+Serial number: 501809321456
+  Licensed to: UiO User
+               University of Oslo
+
+Notes:
+      1. Unicode is supported; see help unicode_advice.
+      2. More than 2 billion observations are allowed; see help obs_advice.
+      3. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. *---------------------------------------------------------------*
+. * Analysis of non-normal data using Stata                       *
+. * Example by harald.weedon-fekjar@medisin.uio.no, 2025          *
+. *---------------------------------------------------------------*
+. 
+. * Download the NHANES data from GitHub:
+. import delimited using "https://raw.githubusercontent.com/ProjectMOSAIC/NHANES/refs/heads/master/data-raw/NHANE
+> S.csv", clear
+(encoding automatically selected: ISO-8859-2)
+(75 vars, 10,000 obs)
+
+. 
+. * Drop observations with missing alcoholyear and make it numeric:
+. drop if alcoholyear=="NA"
+(4,078 observations deleted)
+
+. destring alcoholyear, replace
+alcoholyear: all characters numeric; replaced as int
+
+. 
+. * Keep only variables of interest: alcoholyear and Gender
+. keep alcoholyear gender
+
+. 
+. * Keep only the first 80 observations
+. keep in 1/80
+(5,842 observations deleted)
+
+. 
+. * Inspect first few observations
+. list in 1/6
+
+     +-------------------+
+     | gender   alcoho~r |
+     |-------------------|
+  1. | female         72 |
+  2. |   male          0 |
+  3. |   male        156 |
+  4. | female          2 |
+  5. |   male         40 |
+     |-------------------|
+  6. | female        364 |
+     +-------------------+
+
+. 
+. 
+. *----------------------*
+. * Descriptive analysis *
+. *----------------------*
+. 
+. * Descriptive statistics:
+. summarize alcoholyear , detail
+
+                         AlcoholYear
+-------------------------------------------------------------
+      Percentiles      Smallest
+ 1%            0              0
+ 5%            0              0
+10%            0              0       Obs                  80
+25%            0              0       Sum of wgt.          80
+
+50%           12                      Mean            61.0125
+                        Largest       Std. dev.      98.75305
+75%          100            364
+90%          203            364       Variance       9752.164
+95%          338            364       Skewness       1.993064
+99%          364            364       Kurtosis        6.01701
+
+. 
+. * Histogram and density for alcoholyear 
+. histogram alcoholyear , frequency title("Alcohol consumption") ///
+>     ylabel(, angle(horizontal)) ///
+>     subtitle("Days of alcohol consumption per year")
+(bin=8, start=0, width=45.5)
+
+. 
+. * Differences by gender: means and difference
+. summarize alcoholyear if gender=="female"
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ alcoholyear |         37    31.32432    66.49146          0        364
+
+. summarize alcoholyear if gender=="male"
+
+    Variable |        Obs        Mean    Std. dev.       Min        Max
+-------------+---------------------------------------------------------
+ alcoholyear |         43    86.55814    114.4956          0        364
+
+. ttest alcoholyear, by(gender)
+
+Two-sample t test with equal variances
+------------------------------------------------------------------------------
+   Group |     Obs        Mean    Std. err.   Std. dev.   [95% conf. interval]
+---------+--------------------------------------------------------------------
+  female |      37    31.32432    10.93113    66.49146    9.154968    53.49368
+    male |      43    86.55814    17.46042    114.4956    51.32158    121.7947
+---------+--------------------------------------------------------------------
+Combined |      80     61.0125    11.04093    98.75305    39.03609    82.98891
+---------+--------------------------------------------------------------------
+    diff |           -55.23382     21.3902               -97.81844   -12.64919
+------------------------------------------------------------------------------
+    diff = mean(female) - mean(male)                              t =  -2.5822
+H0: diff = 0                                     Degrees of freedom =       78
+
+    Ha: diff < 0                 Ha: diff != 0                 Ha: diff > 0
+ Pr(T < t) = 0.0058         Pr(|T| > |t|) = 0.0117          Pr(T > t) = 0.9942
+
+. 
+. 
+. *---------------------------*
+. * Check normal distribution *
+. *---------------------------*
+. 
+. * QQ-Plot for normality check
+. qnorm alcoholyear 
+
+. 
+. 
+. *---------------------------------------------------------------*
+. * Bootstrap confidence intervals (10,000 replications, BCa)     *
+. *---------------------------------------------------------------*
+. 
+. * Mean of alcoholyear 
+. capture program drop bootmean
+
+. program define bootmean, rclass
+  1.     quietly summarize alcoholyear 
+  2.     return scalar meanval = r(mean)
+  3. end
+
+. bootstrap r(meanval), reps(10000) dots(1000) seed(4) bca: bootmean
+
+warning: bootmean does not set e(sample), so no observations will be excluded from the resampling because of
+         missing values or other reasons. To exclude observations, press Break, save the data, drop any
+         observations that are to be excluded, and rerun bootstrap.
+(running bootmean on estimation sample)
+
+Jackknife replications (80): .........10.........20.........30.........40.........50.........60.........70.......
+> ..80 done
+
+warning: jackknife returned missing acceleration estimates. BCa confidence intervals cannot be computed.
+
+Bootstrap replications (10,000): .........10,000 done
+
+Bootstrap results                                       Number of obs =     80
+                                                        Replications  = 10,000
+
+      Command: bootmean
+        _bs_1: r(meanval)
+
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+             | coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _bs_1 |    61.0125   10.84023     5.63   0.000     39.76603    82.25897
+------------------------------------------------------------------------------
+
+. estat bootstrap, all
+
+Bootstrap results                               Number of obs     =         80
+                                                Replications      =      10000
+
+      Command: bootmean
+        _bs_1: r(meanval)
+
+------------------------------------------------------------------------------
+             |    Observed               Bootstrap
+             | coefficient       Bias    std. err.  [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _bs_1 |     61.0125   -.046905   10.840234    39.76603   82.25897   (N)
+             |                                           40.9    83.7625   (P)
+             |                                        42.0875     85.025  (BC)
+------------------------------------------------------------------------------
+Key:  N: Normal
+      P: Percentile
+     BC: Bias-corrected
+
+. 
+. * Median of alcoholyear 
+. capture program drop bootmedian
+
+. program define bootmedian, rclass
+  1.     quietly summarize alcoholyear , detail
+  2.     return scalar medval = r(p50)
+  3. end
+
+. bootstrap r(medval), reps(10000) dots(1000) seed(4) bca: bootmedian
+
+warning: bootmedian does not set e(sample), so no observations will be excluded from the resampling because of
+         missing values or other reasons. To exclude observations, press Break, save the data, drop any
+         observations that are to be excluded, and rerun bootstrap.
+(running bootmedian on estimation sample)
+
+Jackknife replications (80): .........10.........20.........30.........40.........50.........60.........70.......
+> ..80 done
+
+warning: jackknife returned missing acceleration estimates. BCa confidence intervals cannot be computed.
+
+Bootstrap replications (10,000): .........10,000 done
+
+Bootstrap results                                       Number of obs =     80
+                                                        Replications  = 10,000
+
+      Command: bootmedian
+        _bs_1: r(medval)
+
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+             | coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _bs_1 |         12   5.887222     2.04   0.042     .4612574    23.53874
+------------------------------------------------------------------------------
+
+. estat bootstrap, all
+
+Bootstrap results                               Number of obs     =         80
+                                                Replications      =      10000
+
+      Command: bootmedian
+        _bs_1: r(medval)
+
+------------------------------------------------------------------------------
+             |    Observed               Bootstrap
+             | coefficient       Bias    std. err.  [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _bs_1 |          12     2.5314   5.8872218    .4612574   23.53874   (N)
+             |                                              6         24   (P)
+             |                                             12         52  (BC)
+------------------------------------------------------------------------------
+Key:  N: Normal
+      P: Percentile
+     BC: Bias-corrected
+
+. 
+. * Difference in means by gender
+. capture program drop bootdiff
+
+. program define bootdiff, rclass
+  1.     * Summarize female
+.     quietly summarize alcoholyear if gender=="female"
+  2.     local meanF = r(mean)
+  3.     * Summarize male
+.     quietly summarize alcoholyear if gender=="male"
+  4.     local meanM = r(mean)
+  5.     return scalar diff = `meanF' - `meanM'
+  6. end
+
+. bootstrap r(diff), reps(10000) dots(1000) seed(4) bca: bootdiff
+
+warning: bootdiff does not set e(sample), so no observations will be excluded from the resampling because of
+         missing values or other reasons. To exclude observations, press Break, save the data, drop any
+         observations that are to be excluded, and rerun bootstrap.
+(running bootdiff on estimation sample)
+
+Jackknife replications (80): .........10.........20.........30.........40.........50.........60.........70.......
+> ..80 done
+
+warning: jackknife returned missing acceleration estimates. BCa confidence intervals cannot be computed.
+
+Bootstrap replications (10,000): .........10,000 done
+
+Bootstrap results                                       Number of obs =     80
+                                                        Replications  = 10,000
+
+      Command: bootdiff
+        _bs_1: r(diff)
+
+------------------------------------------------------------------------------
+             |   Observed   Bootstrap                         Normal-based
+             | coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _bs_1 |  -55.23382    20.5021    -2.69   0.007    -95.41719   -15.05044
+------------------------------------------------------------------------------
+
+. estat bootstrap, all
+
+Bootstrap results                               Number of obs     =         80
+                                                Replications      =      10000
+
+      Command: bootdiff
+        _bs_1: r(diff)
+
+------------------------------------------------------------------------------
+             |    Observed               Bootstrap
+             | coefficient       Bias    std. err.  [95% conf. interval]
+-------------+----------------------------------------------------------------
+       _bs_1 |  -55.233815   .0522443     20.5021   -95.41719  -15.05044   (N)
+             |                                      -96.21835  -15.29112   (P)
+             |                                      -96.73296  -15.84428  (BC)
+------------------------------------------------------------------------------
+Key:  N: Normal
+      P: Percentile
+     BC: Bias-corrected
+
+. 
+. 
+end of do-file
+
+. 
