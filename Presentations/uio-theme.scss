@@ -101,3 +101,16 @@ mark, .mark {
   color: white;
   text-shadow: 1px 1px 2px $svart;
 }
+
+kbd {
+  display: inline-block;
+  padding: 0.2em 0.4em;
+  font-size: 0.9em;
+  line-height: 1.4;
+  color: $svart;
+  background-color: $graa;
+  border: 1px solid $svart;
+  border-radius: 3px;
+  box-shadow: 0 1px 0 $svart;
+  font-family: $font-family-monospace;
+}
