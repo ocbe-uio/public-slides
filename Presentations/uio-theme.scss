@@ -95,3 +95,9 @@ em {
   color: white;
   text-shadow: 2px 2px 2px black, -2px -2px 2px black, -2px 2px 2px black, 2px -2px 2px black;
 }
+
+mark, .mark {
+  background-color: $roed-segl;
+  color: white;
+  text-shadow: 1px 1px 2px $svart;
+}
