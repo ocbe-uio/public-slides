@@ -109,9 +109,24 @@ kbd {
   font-size: 0.9em;
   line-height: 1.4;
   color: $svart;
-  background-color: $graa;
-  border: 1px solid $svart;
-  border-radius: 3px;
-  box-shadow: 0 1px 0 $svart;
+  background: linear-gradient(180deg, lighten($graa, 15%) 0%, $graa 80%, darken($graa, 10%) 100%);
+  border: 1.5px solid darken($graa, 20%);
+  border-bottom: 3px solid $svart;
+  border-radius: 5px;
+  box-shadow:
+    8px 8px 16px 0 rgba($svart, 0.25),    // bottom-right shadow (dark gray)
+    -8px 8px 16px 0 rgba($graa, 0.18),    // bottom-left shadow (medium gray)
+    8px -2px 8px 0 rgba($graa, 0.10);     // right-top shadow (light gray)
   font-family: $font-family-monospace;
+  position: relative;
+  top: 0;
+  transition: top 0.1s, box-shadow 0.1s;
+}
+
+kbd:active {
+  top: 2px;
+  box-shadow:
+    4px 6px 10px 0 rgba($svart, 0.18),
+    -6px 6px 12px 0 rgba($graa, 0.12),
+    6px 0px 6px 0 rgba($graa, 0.08);
 }
