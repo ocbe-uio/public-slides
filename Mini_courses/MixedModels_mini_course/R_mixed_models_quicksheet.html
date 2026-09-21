@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>R Mixed Models Quicksheet</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-light: #eff6ff;
+      --code-bg: #0f172a;
+      --code-text: #f8fafc;
+      --accent-green: #15803d;
+      --accent-green-bg: #f0fdf4;
+      --accent-amber: #b45309;
+      --accent-amber-bg: #fffbeb;
+      --tag-bg: #e0e7ff;
+      --tag-text: #3730a3;
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      padding: 24px 16px;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    /* Quick Syntax Strip */
+    .syntax-strip {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+      gap: 8px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      margin-bottom: 20px;
+      font-size: 0.82rem;
+    }
+
+    .syntax-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .syntax-item code {
+      color: var(--primary);
+      font-weight: 600;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+    }
+
+    .syntax-item span {
+      color: var(--text-muted);
+      font-size: 0.77rem;
+    }
+
+    /* Single Main Menu Option */
+    .menu-container {
+      margin-bottom: 22px;
+      text-align: center;
+    }
+
+    .menu-label {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 8px;
+      display: block;
+    }
+
+    .main-menu {
+      display: inline-flex;
+      background: #e2e8f0;
+      padding: 4px;
+      border-radius: 10px;
+      gap: 4px;
+      max-width: 100%;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.06);
+    }
+
+    .menu-btn {
+      border: none;
+      background: transparent;
+      padding: 9px 20px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      color: #475569;
+      border-radius: 7px;
+      cursor: pointer;
+      transition: all 0.15s ease-in-out;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      white-space: nowrap;
+    }
+
+    .menu-btn:hover {
+      color: var(--text);
+    }
+
+    .menu-btn.active {
+      background: #ffffff;
+      color: var(--primary);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+    }
+
+    .menu-btn .pill {
+      font-size: 0.70rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background: #cbd5e1;
+      color: #334155;
+    }
+
+    .menu-btn.active .pill {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    /* Model Sheets */
+    .model-panel {
+      display: none;
+      animation: fadeIn 0.2s ease-in-out;
+    }
+
+    .model-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Cards */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+    }
+
+    .badge-green {
+      background: var(--accent-green-bg);
+      color: var(--accent-green);
+    }
+
+    .badge-amber {
+      background: var(--accent-amber-bg);
+      color: var(--accent-amber);
+    }
+
+    .desc {
+      color: var(--text-muted);
+      font-size: 0.86rem;
+      margin-bottom: 10px;
+    }
+
+    /* Code Blocks */
+    .code-wrapper {
+      position: relative;
+      margin: 8px 0;
+    }
+
+    pre.r-code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+      font-size: 0.82rem;
+      background: var(--code-bg);
+      color: var(--code-text);
+      border: 1px solid #1e293b;
+      border-radius: 6px;
+      padding: 12px 14px;
+      overflow-x: auto;
+      line-height: 1.45;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(255, 255, 255, 0.15);
+      color: #f8fafc;
+      border: none;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .copy-btn:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .main-menu {
+        flex-direction: column;
+        width: 100%;
+      }
+      .menu-btn {
+        justify-content: space-between;
+        width: 100%;
+      }
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 24px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.78rem;
+    }
+
+    /* Print styles */
+    @media print {
+      body {
+        background: #fff;
+        padding: 0;
+      }
+      .menu-container, .copy-btn {
+        display: none;
+      }
+      .model-panel {
+        display: block !important;
+        page-break-after: always;
+      }
+    }
+
+    /* Wide to Long & Plot Data Links */
+    .wide-to-long-wrapper {
+      text-align: center;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .wide-to-long-link {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: var(--primary);
+      font-size: 0.86rem;
+      font-weight: 600;
+      padding: 6px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+      text-decoration: none;
+    }
+
+    .wide-to-long-link:hover {
+      background: #dbeafe;
+      color: #1d4ed8;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+
+    /* Modal Frame Overlay */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(2px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      box-sizing: border-box;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-frame {
+      background: #ffffff;
+      border-radius: 12px;
+      max-width: 680px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.25), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+      border: 1px solid var(--border);
+      animation: modalSlide 0.18s ease-out;
+    }
+
+    @keyframes modalSlide {
+      from { transform: translateY(12px) scale(0.98); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .modal-header {
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .modal-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .modal-close {
+      background: transparent;
+      border: none;
+      font-size: 1.5rem;
+      line-height: 1;
+      color: #64748b;
+      cursor: pointer;
+      padding: 2px 8px;
+      border-radius: 6px;
+    }
+
+    .modal-close:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+
+    .modal-body {
+      padding: 18px 20px;
+    }
+
+    .format-comparison {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 8px;
+      align-items: center;
+      margin: 12px 0 14px 0;
+    }
+
+    .format-box {
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 12px;
+    }
+
+    .format-title {
+      font-size: 0.74rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #475569;
+      margin-bottom: 6px;
+    }
+
+    .format-pre {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 0.76rem;
+      color: #0f172a;
+      line-height: 1.35;
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      border: none;
+    }
+
+    .format-arrow {
+      font-size: 1.3rem;
+      color: var(--primary);
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .modal-action-btn {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      color: #334155;
+      font-size: 0.85rem;
+      font-weight: 600;
+      padding: 6px 18px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .modal-action-btn:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    @media (max-width: 600px) {
+      .format-comparison {
+        grid-template-columns: 1fr;
+      }
+      .format-arrow {
+        transform: rotate(90deg);
+        padding: 4px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <!-- Header -->
+  <header>
+    <h1>R mixed Models Quicksheet</h1>
+    <p style="color: black;"> Made by Harald Weedon-Fekjær (<a href="mailto:hfe@uio.no" style="color: black; text-decoration: none;">hfe@uio.no</a>) using Google Antigravity CLI (Gemini)</p>
+  </header>
+
+  <!-- Formula Quick Reference -->
+  <div class="syntax-strip">
+    <div class="syntax-item">
+      <code>(1 | group)</code>
+      <span>Random Intercept</span>
+    </div>
+    <div class="syntax-item">
+      <code>(x | group)</code>
+      <span>Random Slope + Intercept (correlated)</span>
+    </div>
+    <div class="syntax-item">
+      <code>(x || group)</code>
+      <span>Random Slope + Intercept (uncorrelated)</span>
+    </div>
+    <div class="syntax-item">
+      <code>(1 | g1) + (1 | g2)</code>
+      <span>Crossed Random Effects</span>
+    </div>
+    <div class="syntax-item">
+      <code>(1 | g1 / g2)</code>
+      <span>Nested Random Effects</span>
+    </div>
+  </div>
+
+  <!-- ONLY Main Menu Option -->
+  <div class="menu-container">
+    <div class="wide-to-long-wrapper">
+      <button class="wide-to-long-link" onclick="openModal('wideLongModal')" type="button">
+        &#8644; Convert from wide to long format
+      </button>
+      <button class="wide-to-long-link" onclick="openModal('plotDataModal')" type="button">
+        &#128200; Plot data example (Orthodont)
+      </button>
+    </div>
+    <span class="menu-label">Select Model Type:</span>
+    <div class="main-menu" role="tablist">
+      <button class="menu-btn active" onclick="switchModel('linear')" id="tab-linear" role="tab" aria-selected="true">
+        <span>1. Linear (lme4)</span>
+        <span class="pill">lmer</span>
+      </button>
+      <button class="menu-btn" onclick="switchModel('nlme')" id="tab-nlme" role="tab" aria-selected="false">
+        <span>2. Linear (nlme)</span>
+        <span class="pill">lme</span>
+      </button>
+      <button class="menu-btn" onclick="switchModel('logistic')" id="tab-logistic" role="tab" aria-selected="false">
+        <span>3. Logistic Mixed Model</span>
+        <span class="pill">glmer (Binary 0/1)</span>
+      </button>
+      <button class="menu-btn" onclick="switchModel('poisson')" id="tab-poisson" role="tab" aria-selected="false">
+        <span>4. Poisson Mixed Model</span>
+        <span class="pill">glmer (Counts)</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 1. LINEAR MIXED MODEL PANEL -->
+  <!-- ========================================================================= -->
+  <div id="panel-linear" class="model-panel active" role="tabpanel">
+
+    <!-- 1.1 Dataset & Fit -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">1. Dataset &amp; Model Specification</div>
+        <span class="badge badge-green">Dataset: Orthodont (built into nlme / R)</span>
+      </div>
+      <p class="desc">
+        Dental growth distance (<code>distance</code> in mm) measured across <code>age</code> (8, 10, 12, 14 years) for 27 children clustered by <code>Subject</code>.
+      </p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre class="r-code"><code>library(lme4)
+
+# Load built-in dataset (nlme package, pre-installed with R)
+data(Orthodont, package = "nlme")
+
+# Fit Linear Mixed Model (Random Intercept only)
+fit_lmm <- lmer(distance ~ age + (1 | Subject), data = Orthodont)
+
+# Alternative: Random Intercept + Random Slope for age
+# fit_lmm <- lmer(distance ~ age + (age | Subject), data = Orthodont)
+
+# Likelihood Ratio Test for random slops:
+# m0 <- lmer(distance ~ age + (1 | Subject), data = Orthodont, REML = TRUE)
+# m1 <- lmer(distance ~ age + (age | Subject), data = Orthodont, REML = TRUE)
+# anova(m0, m1)
+</code></pre>
+      </div>
+    </div>
+
+    <!-- 1.2 Printed Estimates -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">2. Printed Estimates</div>
+        <span class="badge">fixef() &bull; confint() &bull; summary()</span>
+      </div>
+      <p class="desc">Print fixed effects, standard errors, confidence intervals, and variance components.</p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre class="r-code"><code># 1. Full model summary (coefficients, SEs, t-values)
+summary(fit_lmm)
+
+# 2. Fixed effects point estimates
+fixef(fit_lmm)
+
+# 3. 95% Confidence Intervals for fixed effects
+confint(fit_lmm, parm = "beta_", method = "Wald")
+
+# 4. Variance components (random effects & residual variance)
+summary(fit_lmm)$varcor
+confint(fit_lmm, parm = "theta_", method = "profile")
+</code></pre>
+      </div>
+    </div>
+
+    <!-- 1.3 BLUPs -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">3. BLUPs (Best Linear Unbiased Predictors)</div>
+        <span class="badge">ranef() &bull; coef()</span>
+      </div>
+      <p class="desc">
+        <code>ranef()</code> extracts subject deviations (b_0j, b_1j); <code>coef()</code> extracts subject-specific totals (&beta; + b_j).
+      </p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre class="r-code"><code># 1. Subject random effect deviations from population mean (BLUPs)
+ranef(fit_lmm)
+
+# 2. Total subject-specific coefficients (Population Fixed + BLUP)
+coef(fit_lmm)
+
+# 3. Visualize BLUPs with prediction intervals
+lattice::dotplot(ranef(fit_lmm, condVar = TRUE))</code></pre>
+      </div>
+    </div>
+
+    <!-- 1.4 Model Checks -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">4. Model Checks &amp; Diagnostics</div>
+        <span class="badge badge-amber">Residuals &bull; QQ Plots &bull; Convergence</span>
+      </div>
+      <p class="desc">Verify homoscedasticity, normality of residuals, and normality of random effects.</p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre class="r-code"><code># 1. Residuals vs. Fitted Plot (Homoscedasticity & Linearity)
+plot(fit_lmm, type = c("p", "smooth"), main = "Residuals vs Fitted")
+
+# 2. Residual Normality (Q-Q Plot)
+qqnorm(residuals(fit_lmm), main = "Residuals Normal Q-Q")
+qqline(residuals(fit_lmm), col = "red", lwd = 2)
+
+# 3. Random Effects Normality (Q-Q Plots of BLUPs)
+u <- ranef(fit_lmm)$Subject
+qqnorm(u$`(Intercept)`, main = "BLUPs: Intercepts"); qqline(u$`(Intercept)`)
+
+# 4. Convergence Check (0 = Successful convergence)
+fit_lmm@optinfo$conv$opt</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. LINEAR MIXED MODEL (NLME) PANEL -->
+  <!-- ========================================================================= -->
+  <div id="panel-nlme" class="model-panel" role="tabpanel">
+
+    <!-- 2.1 Dataset & Fit -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">1. Dataset &amp; Model Specification (nlme)</div>
+        <span class="badge badge-green">Dataset: Orthodont (built into nlme)</span>
+      </div>
+      <p class="desc">
+        Dental growth distance (<code>distance</code> in mm) across <code>age</code> for 27 children clustered by <code>Subject</code> using <code>nlme::lme()</code>. Note: <code>nlme</code> separates fixed and random formulas.
+      </p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre class="r-code"><code>library(nlme)
+
+# Load built-in dataset (pre-installed with base R)
+data(Orthodont)
+
+# Fit Linear Mixed Model (Random intercept only)
+fit_nlme <- lme(fixed = distance ~ age, 
+                random = ~ 1 | Subject, 
+                data = Orthodont, 
+                method = "REML")
+
+# Alternative: Random Intercept + Random Slope for age
+# fit_nlme <- lme(distance ~ age, random = ~ age | Subject, data = Orthodont
+
+# Signature nlme extensions:
+# Unequal variances across groups: weights = varIdent(form = ~ 1 | Sex)
+# Autoregressive correlation:      correlation = corAR1(form = ~ 1 | Subject)
+</code></pre>
+      </div>
+    </div>
+
+    <!-- 2.2 Printed Estimates -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">2. Printed Estimates</div>
+        <span class="badge">fixef() &bull; intervals() &bull; VarCorr()</span>
+      </div>
+      <p class="desc">Print fixed coefficients, confidence intervals, and variance-covariance structure.</p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre class="r-code"><code># 1. Full model summary (fixed effects, t-table with approximate df)
+summary(fit_nlme)
+
+# 2. Fixed effects point estimates
+fixef(fit_nlme)
+
+# 3. 95% Confidence Intervals for fixed effects & variance components
+intervals(fit_nlme)
+
+# 4. Variance components (random effects SDs, correlation, residual SD)
+VarCorr(fit_nlme)
+
+</code></pre>
+      </div>
+    </div>
+
+    <!-- 2.3 BLUPs -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">3. BLUPs (Best Linear Unbiased Predictors)</div>
+        <span class="badge">ranef() &bull; coef()</span>
+      </div>
+      <p class="desc">
+        <code>ranef()</code> extracts subject deviations (b_0j, b_1j); <code>coef()</code> extracts subject-specific totals (&beta; + b_j).
+      </p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre class="r-code"><code># 1. Subject random deviations from population mean (BLUPs)
+ranef(fit_nlme)
+
+# 2. Total subject-specific coefficients (Population Fixed + BLUP)
+coef(fit_nlme)
+
+# 3. Visualize BLUPs with dotplot
+plot(ranef(fit_nlme))</code></pre>
+      </div>
+    </div>
+
+    <!-- 2.4 Model Checks -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">4. Model Checks &amp; Diagnostics</div>
+        <span class="badge badge-amber">Residuals &bull; QQ Plots &bull; nlme Features</span>
+      </div>
+      <p class="desc">Diagnostic plots</p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre class="r-code"><code># 1. Standardized Residuals vs. Fitted Values
+plot(fit_nlme, form = resid(., type = "p") ~ fitted(.), 
+     abline = 0, main = "Standardized Residuals vs Fitted")
+
+# 2. Residual Normality (Q-Q Plot)
+qqnorm(fit_nlme, form = ~ resid(., type = "p"), main = "Residuals Normal Q-Q")
+
+# 3. Random Effects Normality (Q-Q Plots of BLUPs)
+qqnorm(fit_nlme, form = ~ ranef(.))</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 3. LOGISTIC MIXED MODEL PANEL (BINARY 0/1) -->
+  <!-- ========================================================================= -->
+  <div id="panel-logistic" class="model-panel" role="tabpanel">
+
+    <!-- 2.1 Dataset & Fit -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">1. Dataset &amp; Model Specification (Binary 0/1)</div>
+        <span class="badge badge-green">Dataset: ChickWeight (built into base R)</span>
+      </div>
+      <p class="desc">
+        Binary outcome (<code>heavy</code>: whether weight &gt; 100g, 0 = No, 1 = Yes) across <code>Time</code> (days) clustered by <code>Chick</code>.
+      </p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre class="r-code"><code>library(lme4)
+
+# Load base R dataset and create binary 0/1 response
+data(ChickWeight)
+ChickWeight$heavy <- as.numeric(ChickWeight$weight > 100)
+
+# Fit Logistic Mixed Model (Bernoulli outcome, Logit link)
+fit_logit <- glmer(heavy ~ Time + (1 | Chick), 
+                   data = ChickWeight, 
+                   family = binomial(link = "logit"))</code></pre>
+      </div>
+    </div>
+
+    <!-- 2.2 Printed Estimates -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">2. Printed Estimates &amp; Odds Ratios</div>
+        <span class="badge">fixef() &bull; exp() &bull; Odds Ratios</span>
+      </div>
+      <p class="desc">Print log-odds estimates, exponentiated Odds Ratios (OR), and 95% confidence intervals.</p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre class="r-code"><code># 1. Full model summary (z-values and p-values)
+summary(fit_logit)
+
+# 2. Log-odds estimates
+fixef(fit_logit)
+
+# 3. Odds Ratios (exp(beta))
+exp(fixef(fit_logit))
+
+# 4. 95% Confidence Intervals for Odds Ratios
+exp(confint(fit_logit, parm = "beta_", method = "Wald"))</code></pre>
+      </div>
+    </div>
+
+    <!-- 2.3 BLUPs -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">3. BLUPs (Subject-Specific Log-Odds Shifts)</div>
+        <span class="badge">ranef() &bull; coef()</span>
+      </div>
+      <p class="desc">
+        <code>ranef()</code> gives chick baseline deviation on the log-odds scale; <code>coef()</code> gives total individual intercept.
+      </p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre class="r-code"><code># 1. Subject random deviations on log-odds scale (BLUPs: b_0j)
+ranef(fit_logit)
+
+# 2. Total subject-specific intercept on log-odds scale (beta_0 + b_0j)
+coef(fit_logit)
+
+# 3. Visualize BLUPs with prediction intervals
+lattice::dotplot(ranef(fit_logit, condVar = TRUE))</code></pre>
+      </div>
+    </div>
+
+    <!-- 2.4 Model Checks -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">4. Model Checks &amp; Diagnostics</div>
+        <span class="badge badge-amber">Pearson Residuals &bull; Random Effect QQ</span>
+      </div>
+      <p class="desc">Inspect Pearson residuals across fitted probabilities and test BLUP normality.</p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre class="r-code"><code># 1. Pearson Residuals vs. Fitted Probabilities
+plot(fitted(fit_logit), residuals(fit_logit, type = "pearson"),
+     xlab = "Fitted Probability", ylab = "Pearson Residuals",
+     pch = 20, main = "Residuals vs Fitted")
+abline(h = 0, lty = 2, col = "red")
+
+# 2. Random Effects Normality (Q-Q Plot of Chick BLUPs)
+qqnorm(ranef(fit_logit)$Chick[, 1], main = "BLUPs Q-Q Plot (Chick Intercepts)")
+qqline(ranef(fit_logit)$Chick[, 1], col = "red", lwd = 2)
+
+# 3. Convergence Check (0 = Successful convergence)
+fit_logit@optinfo$conv$opt</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 4. POISSON MIXED MODEL PANEL (COUNTS / RATES) -->
+  <!-- ========================================================================= -->
+  <div id="panel-poisson" class="model-panel" role="tabpanel">
+
+    <!-- 3.1 Dataset & Fit -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">1. Dataset &amp; Model Specification (Counts)</div>
+        <span class="badge badge-green">Dataset: epil (built into MASS / R)</span>
+      </div>
+      <p class="desc">
+        Repeated seizure counts (<code>y</code>) in a clinical trial across 59 epileptic patients (<code>subject</code>) comparing treatment (<code>trt</code>: placebo vs. progabide).
+      </p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre class="r-code"><code>library(lme4)
+
+# Load built-in dataset (MASS package, pre-installed with R)
+data(epil, package = "MASS")
+
+# Fit Poisson Mixed Model (Count outcome, Log link)
+fit_pois <- glmer(y ~ trt + (1 | subject), 
+                  data = epil, 
+                  family = poisson(link = "log"))
+
+# For rate models with varying exposure/time, add an offset:
+# glmer(y ~ trt + offset(log(time)) + (1 | subject), family = poisson)</code></pre>
+      </div>
+    </div>
+
+    <!-- 3.2 Printed Estimates -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">2. Printed Estimates &amp; Rate Ratios</div>
+        <span class="badge">fixef() &bull; exp() &bull; Rate Ratios</span>
+      </div>
+      <p class="desc">Fixed effects are on the log-rate scale. Exponentiate coefficients to obtain Rate Ratios (RR / IRR).</p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre class="r-code"><code># 1. Full model summary (coefficients, z-values, p-values)
+summary(fit_pois)
+
+# 2. Log-rate coefficients (beta)
+fixef(fit_pois)
+
+# 3. Rate Ratios / Incidence Rate Ratios (exp(beta))
+exp(fixef(fit_pois))
+
+# 4. 95% Confidence Intervals for Rate Ratios
+exp(confint(fit_pois, parm = "beta_", method = "Wald"))</code></pre>
+      </div>
+    </div>
+
+    <!-- 3.3 BLUPs -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">3. BLUPs (Subject-Specific Log-Rate Shifts)</div>
+        <span class="badge">ranef() &bull; coef()</span>
+      </div>
+      <p class="desc">
+        <code>ranef()</code> yields subject random intercepts on the log-rate scale; <code>coef()</code> adds population baseline to individual subjects.
+      </p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre class="r-code"><code># 1. Subject random deviations on log-rate scale (BLUPs: b_0j)
+ranef(fit_pois)
+
+# 2. Subject-specific total coefficients on log-rate scale (beta + b_0j)
+coef(fit_pois)
+
+# 3. Visualize subject BLUPs with prediction intervals
+lattice::dotplot(ranef(fit_pois, condVar = TRUE))</code></pre>
+      </div>
+    </div>
+
+    <!-- 3.4 Model Checks & Overdispersion -->
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">4. Model Checks &amp; Overdispersion Test</div>
+        <span class="badge badge-amber">Overdispersion Check &bull; Pearson Chi-Sq</span>
+      </div>
+      <p class="desc">
+        Crucial for Poisson models (assumes Variance = Mean). A dispersion ratio &gt; 1.4 suggests overdispersion.
+      </p>
+
+      <div class="code-wrapper">
+        <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        <pre class="r-code"><code># 1. Overdispersion Check (Pearson Chi-Square / Residual DF)
+pearson_res <- residuals(fit_pois, type = "pearson")
+chisq_val   <- sum(pearson_res^2)
+df_val      <- df.residual(fit_pois)
+disp_ratio  <- chisq_val / df_val
+p_value     <- pchisq(chisq_val, df = df_val, lower.tail = FALSE)
+
+# Ratio > 1.4 with p < 0.05 indicates overdispersion
+cat("Dispersion Ratio:", round(disp_ratio, 2), "| p-value:", round(p_value, 4), "\n")
+
+# If overdispersed: add observation-level random effect (OLRE):
+# epil$obs_id <- 1:nrow(epil)
+# fit_olre <- glmer(y ~ trt + (1 | subject) + (1 | obs_id), data = epil, family = poisson)
+
+# 2. Residuals vs. Fitted Plot
+plot(fit_pois, type = c("p", "smooth"), 
+     xlab = "Fitted Values", ylab = "Pearson Residuals",
+     main = "Residuals vs Fitted (epil)")
+
+# 3. Random Effect Normality (Q-Q Plot of BLUPs)
+qqnorm(ranef(fit_pois)$subject[, 1], main = "BLUPs Q-Q Plot (Subject Effects)")
+qqline(ranef(fit_pois)$subject[, 1], col = "red", lwd = 2)
+
+# 4. Convergence Check (0 = Successful convergence)
+fit_pois@optinfo$conv$opt</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Frame for Wide to Long Example -->
+  <div id="wideLongModal" class="modal-overlay" onclick="handleBackdropClick(event)">
+    <div class="modal-frame" role="dialog" aria-labelledby="modalTitle" aria-modal="true">
+      <div class="modal-header">
+        <h2 id="modalTitle" class="modal-title">Convert Wide to Long Format</h2>
+        <button class="modal-close" onclick="closeModal()" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="desc">
+          Mixed models in R (<code>lme4</code>) require data in <strong>long format</strong>, where each row represents one observation for a subject, with a subject ID column added.
+        </p>
+
+        <!-- Visual Representation -->
+        <div class="format-comparison">
+          <div class="format-box">
+            <div class="format-title">Wide Format</div>
+            <pre class="format-pre"><code>id  visit_1  visit_2  visit_3
+ 1       12       15       19
+ 2       14       17       22</code></pre>
+          </div>
+          <div class="format-arrow">&rarr;</div>
+          <div class="format-box">
+            <div class="format-title">Long Format (for Mixed Models)</div>
+            <pre class="format-pre"><code>id  visit  score
+ 1      1     12
+ 1      2     15
+ 1      3     19
+ 2      1     14
+ ...</code></pre>
+          </div>
+        </div>
+
+        <!-- Code Snippet -->
+        <div class="card-title" style="font-size: 0.95rem; margin-top: 14px; margin-bottom: 6px;">R Code Example</div>
+        <div class="code-wrapper">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre class="r-code"><code># Sample Wide Data
+df_wide <- data.frame(
+  id      = 1:3,
+  visit_1 = c(12, 14, 11),
+  visit_2 = c(15, 17, 13),
+  visit_3 = c(19, 22, 16)
+)
+
+# Option A: tidyr::pivot_longer (Recommended / Modern)
+library(tidyr)
+df_long <- pivot_longer(
+  df_wide,
+  cols            = starts_with("visit_"),  # columns to pivot
+  names_to        = "visit",                # new column name
+  names_prefix    = "visit_",               # drop "visit_" prefix
+  names_transform = as.numeric,             # convert to numeric (1, 2, 3)
+  values_to       = "score"                 # name of new value column
+)
+
+# Option B: Base R reshape (No packages required)
+df_long_base <- reshape(
+  df_wide,
+  direction = "long",
+  varying   = c("visit_1", "visit_2", "visit_3"),
+  v.names   = "score",
+  timevar   = "visit",
+  times     = 1:3,                          # numeric 1, 2, 3 instead of strings
+  idvar     = "id"
+)</code></pre>
+        </div>
+
+        <div style="text-align: right; margin-top: 14px;">
+          <button class="modal-action-btn" onclick="closeModal()">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Frame for Plot Data Example -->
+  <div id="plotDataModal" class="modal-overlay" onclick="handleBackdropClick(event)">
+    <div class="modal-frame" role="dialog" aria-labelledby="plotModalTitle" aria-modal="true">
+      <div class="modal-header">
+        <h2 id="plotModalTitle" class="modal-title">Plot Data Example (Orthodont Dataset)</h2>
+        <button class="modal-close" onclick="closeModal('plotDataModal')" aria-label="Close">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p class="desc">
+          Before fitting mixed models, visualize individual growth trajectories (spaghetti plot) and group mean trends across age to inform random intercepts, random slopes, and fixed effects.
+        </p>
+
+        <div class="note-box" style="margin-top: 0; margin-bottom: 14px;">
+          <strong>What to look for:</strong><br>
+          &bull; <i>Vertical spread at baseline (Age 8):</i><br> Subject variation &rarr; random intercept <code>(1 | Subject)</code><br>
+          &bull; <i>Non-parallel lines:</i><br> Different individual growth rates &rarr; random slope <code>(age | Subject)</code><br>
+        </div>
+
+        <div class="card-title" style="font-size: 0.95rem; margin-bottom: 6px;">R Plotting Code</div>
+        <div class="code-wrapper">
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+          <pre class="r-code"><code># Load built-in dataset
+data(Orthodont, package = "nlme")
+
+# -------------------------------------------------------------
+# 1. ggplot2: Spaghetti Plot with Group Mean Trajectories
+# -------------------------------------------------------------
+library(ggplot2)
+
+ggplot(Orthodont, aes(x = age, y = distance, group = Subject, color = Sex)) +
+  geom_line(alpha = 0.45, linewidth = 0.8) +
+  geom_point(size = 1.6, alpha = 0.7) +
+  # Bold group mean trajectory lines for Boys vs Girls:
+  stat_summary(aes(group = Sex), fun = mean, geom = "line", linewidth = 1.5) +
+  scale_color_manual(values = c("Male" = "#2563eb", "Female" = "#e11d48")) +
+  labs(title = "Orthodont: Individual Trajectories & Sex Mean Trends",
+       x = "Age (years)", y = "Distance (mm)", color = "Sex") +
+  theme_minimal()
+
+# -------------------------------------------------------------
+# 2. lattice: Trellis Plot (Subject-by-Subject Panels)
+# -------------------------------------------------------------
+library(lattice)
+
+# Individual panels per child (built-in with nlme / base R)
+xyplot(distance ~ age | Subject, data = Orthodont,
+       type = c("g", "p", "r"), # grid, points, linear fit
+       layout = c(9, 3),        # 9 cols, 3 rows for 27 subjects
+       xlab = "Age (years)", ylab = "Distance (mm)",
+       main = "Individual Linear Growth Fits by Subject")
+ </code></pre>
+        </div>
+
+        <div style="text-align: right; margin-top: 14px;">
+          <button class="modal-action-btn" onclick="closeModal('plotDataModal')">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>R Mixed Models Quicksheet &bull; Made by Harald Weedon-Fekjær (<a href="mailto:hfe@uio.no" style="color: inherit;">hfe@uio.no</a>) using Google Antigravity CLI (Gemini)</p>
+  </footer>
+</div>
+
+<script>
+  // Simple Single-Menu Switcher
+  function switchModel(modelType) {
+    // Hide all panels
+    const panels = document.querySelectorAll('.model-panel');
+    panels.forEach(p => p.classList.remove('active'));
+
+    // Deactivate all buttons
+    const buttons = document.querySelectorAll('.menu-btn');
+    buttons.forEach(b => {
+      b.classList.remove('active');
+      b.setAttribute('aria-selected', 'false');
+    });
+
+    // Activate selected panel and button
+    const activePanel = document.getElementById('panel-' + modelType);
+    const activeButton = document.getElementById('tab-' + modelType);
+
+    if (activePanel) activePanel.classList.add('active');
+    if (activeButton) {
+      activeButton.classList.add('active');
+      activeButton.setAttribute('aria-selected', 'true');
+    }
+  }
+
+  // Copy Code Snippet Handler
+  function copyCode(btn) {
+    const pre = btn.nextElementSibling;
+    const text = pre.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.innerText;
+      btn.innerText = "Copied!";
+      setTimeout(() => btn.innerText = orig, 1800);
+    }).catch(err => {
+      console.error("Copy failed", err);
+    });
+  }
+
+  // Modal Control Functions
+  function openModal(modalId) {
+    const id = modalId || 'wideLongModal';
+    const modal = document.getElementById(id);
+    if (modal) {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeModal(modalId) {
+    if (modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) modal.classList.remove('active');
+    } else {
+      document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+    }
+    const activeModals = document.querySelectorAll('.modal-overlay.active');
+    if (activeModals.length === 0) {
+      document.body.style.overflow = '';
+    }
+  }
+
+  function handleBackdropClick(event) {
+    if (event.target.classList.contains('modal-overlay')) {
+      closeModal(event.target.id);
+    }
+  }
+
+  // Close modal on Escape key press
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+      closeModal();
+    }
+  });
+</script>
+
+</body>
+</html>

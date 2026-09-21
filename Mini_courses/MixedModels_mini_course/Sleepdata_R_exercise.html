@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>R mixed Models Exercise</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-light: #eff6ff;
+      --primary-border: #bfdbfe;
+      --accent-green: #15803d;
+      --accent-green-bg: #f0fdf4;
+      --accent-blue: #1e3a8a;
+      --accent-blue-bg: #eff6ff;
+      --accent-blue-border: #bfdbfe;
+      --accent-blue-text: #172554;
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      padding: 24px 16px;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    /* Header */
+    header {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    /* Cards matching quicksheet */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.74rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+    }
+
+    .badge-green {
+      background: var(--accent-green-bg);
+      color: var(--accent-green);
+    }
+
+    .card p {
+      font-size: 0.92rem;
+      color: #334155;
+      margin-bottom: 12px;
+    }
+
+    /* Research Questions Box */
+    .questions-box {
+      background: var(--accent-blue-bg);
+      border: 1px solid var(--accent-blue-border);
+      border-left: 4px solid var(--accent-blue);
+      border-right: 4px solid var(--accent-blue);
+      border-radius: var(--radius);
+      padding: 18px 22px;
+      margin-top: 52px;
+    }
+
+    .questions-box h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--accent-blue);
+      margin-bottom: 12px;
+      letter-spacing: -0.01em;
+    }
+
+    .questions-box ol {
+      margin-left: 22px;
+      color: var(--accent-blue-text);
+      font-size: 0.92rem;
+    }
+
+    .questions-box li {
+      margin-bottom: 8px;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Header -->
+  <header>
+    <h1>R mixed Models Exercise</h1>
+    <p style="color: black;"> Made by Harald Weedon-Fekjær (<a href="mailto:hfe@uio.no" style="color: black; text-decoration: none;">hfe@uio.no</a>) using Google Antigravity CLI (Gemini)</p>
+  </header>
+
+  <!-- Data Description & Location Card -->
+  <div class="card">
+    <div class="card-header" style="margin-bottom: 8px; padding-bottom: 6px;">
+      <div class="card-title">Data Description</div>
+    </div>
+    <p>
+      In this exercise, we will use the sleep study data on the average reaction time per day for subjects in a sleep deprivation study. On day 0 the subjects had their normal amount of sleep. Starting that night they were restricted to 3 hours of sleep per night. The observations represent the average reaction time on a series of tests given each day to each subject. The data is stored as a wide-formatted CSV file at data/sleepstudy_wide.csv with columns Subject and day_0 through day_9.
+    </p>
+
+    <!-- Research Questions / Exercise -->
+    <div class="questions-box">
+      <h3>Research Questions / Exercise:</h3>
+      <ol>
+        <li>What is the average reaction time of rested subjects on Day 0?</li>
+        <li>On average, by how many milliseconds does reaction time slow down per day of sleep deprivation?</li>
+        <li>Do individuals differ in their baseline rested speed (random intercepts)?</li>
+        <li>Do individuals differ in their vulnerability or rate of slowing over time (random slopes)?</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>R Mixed Models Exercise &bull; Made by Harald Weedon-Fekjær (<a href="mailto:hfe@uio.no" style="color: inherit; text-decoration: none;">hfe@uio.no</a>) using Google Antigravity CLI (Gemini)</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
