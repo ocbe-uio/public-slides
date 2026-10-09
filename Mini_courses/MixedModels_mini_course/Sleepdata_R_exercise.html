@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>R mixed Models Exercise</title>
+  <title>R Mixed Models Exercise</title>
   <style>
     :root {
       --bg: #f8fafc;
@@ -156,8 +156,8 @@
 
   <!-- Header -->
   <header>
-    <h1>R mixed Models Exercise</h1>
-    <p style="color: black;"> Made by Harald Weedon-Fekjær (<a href="mailto:hfe@uio.no" style="color: black; text-decoration: none;">hfe@uio.no</a>) using Google Antigravity CLI (Gemini)</p>
+    <h1>R Mixed Models Exercise</h1>
+    <p style="color: black;"> by Harald Weedon-Fekjær (<a href="mailto:hfe@uio.no" style="color: black; text-decoration: none;">hfe@uio.no</a>)</p>
   </header>
 
   <!-- Data Description & Location Card -->
@@ -166,7 +166,7 @@
       <div class="card-title">Data Description</div>
     </div>
     <p>
-      In this exercise, we will use the sleep study data on the average reaction time per day for subjects in a sleep deprivation study. On day 0 the subjects had their normal amount of sleep. Starting that night they were restricted to 3 hours of sleep per night. The observations represent the average reaction time on a series of tests given each day to each subject. The data is stored as a wide-formatted CSV file at data/sleepstudy_wide.csv with columns Subject and day_0 through day_9.
+      In this exercise, we will use the sleep study data on the average reaction time per day for subjects in a sleep deprivation study. On day 0 and 1 the subjects had their normal amount of sleep. After day one they were restricted to 3 hours of sleep per night. The observations represent the average reaction time on a series of tests given each day to each subject. The data is stored as a wide-formatted CSV file at data/sleepstudy_wide.csv with columns Subject and day_0 through day_9.
     </p>
 
     <!-- Research Questions / Exercise -->
@@ -175,8 +175,9 @@
       <ol>
         <li>What is the average reaction time of rested subjects on Day 0?</li>
         <li>On average, by how many milliseconds does reaction time slow down per day of sleep deprivation?</li>
-        <li>Do individuals differ in their baseline rested speed (random intercepts)?</li>
-        <li>Do individuals differ in their vulnerability or rate of slowing over time (random slopes)?</li>
+        <li>Do individuals differ in their baseline reaction speed? (random intercepts)</li> 
+        <li>Do individuals differ in their vulnerability to sleep deprivation? <br>
+		   (e.g. do the individual slopes vary)</li>
       </ol>
     </div>
   </div>
