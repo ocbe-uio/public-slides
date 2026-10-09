@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mixed Models Mini Course</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --card-bg: #ffffff;
+      --text: #0f172a;
+      --text-muted: #475569;
+      --border: #e2e8f0;
+      --primary: #2563eb;
+      --primary-light: #eff6ff;
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+      padding: 24px 16px;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 0 auto;
+    }
+
+    header {
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.02em;
+      margin-bottom: 6px;
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.92rem;
+    }
+
+    header a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px;
+      margin-bottom: 18px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    }
+
+    .card-header {
+      margin-bottom: 12px;
+      border-bottom: 1px solid #f1f5f9;
+      padding-bottom: 8px;
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #1e293b;
+    }
+
+    ul {
+      list-style-type: disc;
+      padding-left: 20px;
+    }
+
+    li {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+    }
+
+    li:last-child {
+      margin-bottom: 0;
+    }
+
+    a {
+      color: var(--primary);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 32px;
+      padding-top: 16px;
+      border-top: 1px solid var(--border);
+      color: var(--text-muted);
+      font-size: 0.82rem;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+  <header>
+    <h1>Mixed Models Mini Course</h1>
+    <p>by Harald Weedon-Fekjær (<a href="mailto:hfe@uio.no">hfe@uio.no</a>)</p>
+  </header>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Course Material</div>
+    </div>
+    <ul>
+      <li><a href="MixedModels_mini_course_slides.pdf">Intro to mixed effects models</a></li>
+      <li><a href="R_mixed_models_quicksheet.html">Mixed models R quick sheet</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Exercise &amp; Data</div>
+    </div>
+    <ul>
+      <li><a href="Sleepdata_R_exercise.html">A small mixed effects models exercise</a></li>
+      <li><a href="data/sleepstudy_wide.csv">Example data for the mixed effects models exercise</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Solutions</div>
+    </div>
+    <ul>
+      <li><a href="Sleepdata_R_exercise_results.ipynb" download>Solution to exercise as Jupyter Notebook file</a></li>
+      <li><a href="Sleepdata_R_exercise_results.html">Solution to exercise in html</a></li>
+    </ul>
+  </div>
+
+  <footer>
+    <p>Mixed Models Mini Course &bull; Harald Weedon-Fekjær (<a href="mailto:hfe@uio.no" style="color: inherit; text-decoration: none;">hfe@uio.no</a>)</p>
+  </footer>
+
+</div>
+
+</body>
+</html>
