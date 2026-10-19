@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sea Trout Growth — Mixed Effects Simulator</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class'
+    };
+  </script>
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #f8fafc;
+      --bg-header: rgba(255, 255, 255, 0.88);
+      --bg-card: #ffffff;
+      --bg-inner: #f1f5f9;
+      --bg-chart: #f8fafc;
+      --bg-info: #f0f9ff;
+      --border-card: #e2e8f0;
+      --border-inner: #cbd5e1;
+      --border-info: #bae6fd;
+      --text-primary: #0f172a;
+      --text-secondary: #334155;
+      --text-muted: #64748b;
+      --text-accent: #0284c7;
+      --slider-track: #cbd5e1;
+      --pill-bg: #f8fafc;
+      --pill-hover: #f1f5f9;
+      --pill-border: #e2e8f0;
+      --btn-bg: #f1f5f9;
+      --btn-hover: #e2e8f0;
+      --btn-border: #cbd5e1;
+      --btn-text: #1e293b;
+    }
+
+    html.dark {
+      --bg-page: #0b0f19;
+      --bg-header: rgba(17, 24, 39, 0.88);
+      --bg-card: #111827;
+      --bg-inner: #1e293b;
+      --bg-chart: #080c14;
+      --bg-info: rgba(12, 74, 110, 0.28);
+      --border-card: #1f2937;
+      --border-inner: #334155;
+      --border-info: rgba(14, 116, 144, 0.45);
+      --text-primary: #f8fafc;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --text-accent: #38bdf8;
+      --slider-track: #334155;
+      --pill-bg: #1e293b;
+      --pill-hover: #273549;
+      --pill-border: #334155;
+      --btn-bg: #1e293b;
+      --btn-hover: #334155;
+      --btn-border: #475569;
+      --btn-text: #f1f5f9;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-primary);
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .app-header {
+      background-color: var(--bg-header);
+      border-bottom: 1px solid var(--border-card);
+      backdrop-filter: blur(10px);
+    }
+
+    .card-panel {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-card);
+      border-radius: 1rem;
+      box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    html.dark .card-panel {
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.5);
+    }
+
+    .inner-panel {
+      background-color: var(--bg-inner);
+      border: 1px solid var(--border-inner);
+      color: var(--text-primary);
+    }
+
+    .chart-box {
+      background-color: var(--bg-chart);
+      border: 1px solid var(--border-card);
+    }
+
+    .info-card {
+      background-color: var(--bg-info);
+      border: 1px solid var(--border-info);
+    }
+
+    .text-main {
+      color: var(--text-primary);
+    }
+
+    .text-sub {
+      color: var(--text-secondary);
+    }
+
+    .text-muted-custom {
+      color: var(--text-muted);
+    }
+
+    .text-accent-custom {
+      color: var(--text-accent);
+    }
+
+    .action-btn {
+      background-color: var(--btn-bg);
+      border: 1px solid var(--btn-border);
+      color: var(--btn-text);
+      transition: all 0.15s ease;
+    }
+
+    .action-btn:hover {
+      background-color: var(--btn-hover);
+    }
+
+    /* Step pill styles */
+    .step-pill {
+      background-color: var(--pill-bg);
+      border: 1px solid var(--pill-border);
+      color: var(--text-primary);
+      transition: all 0.15s ease;
+    }
+
+    .step-pill:hover {
+      background-color: var(--pill-hover);
+    }
+
+    .step-pill .pill-sub {
+      color: var(--text-muted);
+    }
+
+    .step-pill.active {
+      background: #0284c7 !important;
+      color: #ffffff !important;
+      border-color: #38bdf8 !important;
+      box-shadow: 0 4px 14px rgba(2, 132, 199, 0.4);
+    }
+
+    .step-pill.active span {
+      color: #ffffff !important;
+    }
+
+    /* Range Sliders */
+    input[type=range] {
+      -webkit-appearance: none;
+      appearance: none;
+      background: var(--slider-track);
+      height: 6px;
+      border-radius: 999px;
+      outline: none;
+    }
+
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #0284c7;
+      border: 2px solid #ffffff;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    html.dark input[type=range]::-webkit-slider-thumb {
+      background: #38bdf8;
+      border-color: #0f172a;
+    }
+
+    input[type=range]::-moz-range-thumb {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #0284c7;
+      border: 2px solid #ffffff;
+      cursor: pointer;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    html.dark input[type=range]::-moz-range-thumb {
+      background: #38bdf8;
+      border-color: #0f172a;
+    }
+
+    /* Custom tooltip */
+    .d3-tooltip {
+      position: absolute;
+      text-align: left;
+      padding: 9px 13px;
+      font-size: 12px;
+      border-radius: 8px;
+      pointer-events: none;
+      backdrop-filter: blur(8px);
+      z-index: 50;
+      transition: opacity 0.15s ease;
+      background: rgba(255, 255, 255, 0.96);
+      color: #0f172a;
+      border: 1px solid rgba(15, 23, 42, 0.14);
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.15);
+    }
+
+    html.dark .d3-tooltip {
+      background: rgba(15, 23, 42, 0.96);
+      color: #f8fafc;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.65);
+    }
+    
+    /* Animation for appearing parameters */
+    .parameter-control {
+      transition: all 0.3s ease;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+  <header class="app-header sticky top-0 z-40 px-4 lg:px-8 py-3.5">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-sky-600 flex items-center justify-center shadow-lg shadow-sky-500/20 text-white font-bold text-lg">
+          🐟
+        </div>
+        <div>
+          <h1 class="text-lg font-bold text-main tracking-tight">
+            Sea Trout Growth — Mixed Effects Simulator
+          </h1>
+          <p class="text-xs text-muted-custom">Step-by-step hierarchical model simulation across 8 sea trout</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2.5">
+        <button id="resampleBtn" class="action-btn flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold">
+          <svg class="w-3.5 h-3.5 text-accent-custom" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+          Resample Cohort
+        </button>
+        <button id="themeToggleBtn" aria-label="Toggle theme" class="action-btn flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg text-xs font-semibold">
+          <span id="themeIcon">🌙</span>
+          <span id="themeText">Dark mode</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 lg:p-6 space-y-6">
+    <!-- Top Grid: Left Sidebar Controls + Right Main Growth Plot -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+      <!-- Left Column: Step Builder & Sliders -->
+      <div class="lg:col-span-4 flex flex-col gap-5">
+        <!-- Step By Step Progressive Builder Card -->
+        <div class="card-panel p-5">
+          <div class="flex items-center justify-between mb-3">
+            <span class="text-xs font-semibold uppercase tracking-wider text-accent-custom">Model Complexity Builder</span>
+            <span id="currentStepBadge" class="text-xs font-mono text-muted-custom">Step 1 / 6</span>
+          </div>
+
+          <div class="grid grid-cols-1 gap-2">
+            <button data-step="0" class="step-pill text-left px-3.5 py-2.5 rounded-xl text-xs flex items-center justify-between">
+              <span class="font-medium">1. Residual Variation Only</span>
+              <span class="pill-sub text-[11px]">Unstructured noise</span>
+            </button>
+            <button data-step="1" class="step-pill text-left px-3.5 py-2.5 rounded-xl text-xs flex items-center justify-between">
+              <span class="font-medium">2. Random Intercept</span>
+              <span class="pill-sub text-[11px]">Individual shifts</span>
+            </button>
+            <button data-step="2" class="step-pill text-left px-3.5 py-2.5 rounded-xl text-xs flex items-center justify-between">
+              <span class="font-medium">3. Fixed Effect Trend</span>
+              <span class="pill-sub text-[11px]">Population growth</span>
+            </button>
+            <button data-step="3" class="step-pill text-left px-3.5 py-2.5 rounded-xl text-xs flex items-center justify-between">
+              <span class="font-medium">4. Random Trend (Slope)</span>
+              <span class="pill-sub text-[11px]">Individual slopes</span>
+            </button>
+            <button data-step="4" class="step-pill text-left px-3.5 py-2.5 rounded-xl text-xs flex items-center justify-between">
+              <span class="font-medium">5. Intercept-Trend Correlation</span>
+              <span class="pill-sub text-[11px]">Compensatory effects</span>
+            </button>
+            <button data-step="5" class="step-pill text-left px-3.5 py-2.5 rounded-xl text-xs flex items-center justify-between">
+              <span class="font-medium">6. Residual Autocorrelation</span>
+              <span class="pill-sub text-[11px]">CAR(1) persistence</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Current Step Explanation -->
+        <div id="stepInfoCard" class="info-card rounded-2xl p-4 text-xs space-y-1.5">
+          <!-- Dynamically populated -->
+        </div>
+
+        <!-- Parameter Sliders (Dynamic Display & Order) -->
+        <div class="card-panel p-5">
+          <h3 class="text-xs font-semibold uppercase tracking-wider text-muted-custom mb-4">Model Parameters</h3>
+          
+          <div id="parametersContainer" class="flex flex-col gap-4">
+            <!-- Measurement / Residual Noise (Step 0) -->
+            <div class="space-y-1.5 parameter-control" id="ctrl_sigma_eps" data-step="0">
+              <div class="flex justify-between text-xs">
+                <label class="text-sub font-medium">Residual Noise SD (<span class="mono">σ_ε</span>)</label>
+                <span id="val_sigma_eps" class="mono text-accent-custom font-semibold">1.6 cm</span>
+              </div>
+              <input id="slider_sigma_eps" type="range" min="0.2" max="5.0" step="0.1" value="1.6" class="w-full cursor-pointer">
+              <p class="text-[11px] text-muted-custom">Random innovation noise and short-term environmental fluctuations.</p>
+            </div>
+
+            <!-- Intercept Variance (Step 1) -->
+            <div class="space-y-1.5 parameter-control" id="ctrl_sigma_u0" data-step="1">
+              <div class="flex justify-between text-xs">
+                <label class="text-sub font-medium">Random Intercept SD (<span class="mono">σ_u0</span>)</label>
+                <span id="val_sigma_u0" class="mono text-accent-custom font-semibold">4.0 cm</span>
+              </div>
+              <input id="slider_sigma_u0" type="range" min="0" max="12" step="0.2" value="4.0" class="w-full cursor-pointer">
+              <p class="text-[11px] text-muted-custom">Spread in baseline length at Age 1 (smoltification size).</p>
+            </div>
+
+            <!-- Baseline Growth Speed (Step 2) -->
+            <div class="space-y-1.5 parameter-control" id="ctrl_beta1" data-step="2">
+              <div class="flex justify-between text-xs">
+                <label class="text-sub font-medium">Population Growth Speed (<span class="mono">β₁</span>)</label>
+                <span id="val_beta1" class="mono text-accent-custom font-semibold">8.4 cm/yr</span>
+              </div>
+              <input id="slider_beta1" type="range" min="2.0" max="15.0" step="0.2" value="8.4" class="w-full cursor-pointer">
+              <p class="text-[11px] text-muted-custom">Population mean annual growth rate (starting from β₀ = 14.5 cm at Age 1).</p>
+            </div>
+
+            <!-- Slope Variance (Step 3) -->
+            <div class="space-y-1.5 parameter-control" id="ctrl_sigma_u1" data-step="3">
+              <div class="flex justify-between text-xs">
+                <label class="text-sub font-medium">Random Slope SD (<span class="mono">σ_u1</span>)</label>
+                <span id="val_sigma_u1" class="mono text-accent-custom font-semibold">4.0 cm/yr</span>
+              </div>
+              <input id="slider_sigma_u1" type="range" min="0" max="8" step="0.1" value="4.0" class="w-full cursor-pointer">
+              <p class="text-[11px] text-muted-custom">Variation in individual annual marine growth rate.</p>
+            </div>
+
+            <!-- Correlation (Step 4) -->
+            <div class="space-y-1.5 parameter-control" id="ctrl_rho" data-step="4">
+              <div class="flex justify-between text-xs">
+                <label class="text-sub font-medium">Intercept-Slope Correlation (<span class="mono">ρ</span>)</label>
+                <span id="val_rho" class="mono text-accent-custom font-semibold">-0.50</span>
+              </div>
+              <input id="slider_rho" type="range" min="-0.95" max="0.95" step="0.05" value="-0.50" class="w-full cursor-pointer">
+              <p class="text-[11px] text-muted-custom">Negative = compensatory growth; Positive = cumulative advantage.</p>
+            </div>
+
+            <!-- Autoregression phi (Step 5) -->
+            <div class="space-y-1.5 parameter-control" id="ctrl_phi" data-step="5">
+              <div class="flex justify-between text-xs">
+                <label class="text-sub font-medium">Autoregressive Persistence (<span class="mono">φ</span>)</label>
+                <span id="val_phi" class="mono text-accent-custom font-semibold">0.80</span>
+              </div>
+              <input id="slider_phi" type="range" min="0.0" max="0.95" step="0.05" value="0.80" class="w-full cursor-pointer">
+              <p class="text-[11px] text-muted-custom">Continuous-time persistence (φ^Δt) of feeding & sea temperature.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Main Growth Trajectory Chart -->
+      <div class="lg:col-span-8 flex flex-col">
+        <div class="card-panel p-5 flex flex-col">
+          <div class="mb-3 flex flex-wrap items-center justify-between gap-2">
+            <div>
+              <h2 class="text-sm font-bold text-main flex flex-wrap items-center gap-2">
+                <span>Sea Trout Length-at-Age Trajectories (8 Fish)</span>
+                <span id="activeModelFormula" class="mono text-[11px] text-accent-custom px-2.5 py-0.5 rounded inner-panel"></span>
+              </h2>
+              <p class="text-xs text-muted-custom mt-0.5">Irregularly sampled longitudinal trajectories from Age 1.0 to 4.0 years (mean 8 measurements/fish). Click any curve or point to isolate a trout.</p>
+            </div>
+          </div>
+
+          <!-- SVG Container -->
+          <div id="growthChartContainer" class="chart-box w-full relative min-h-[540px] lg:min-h-[620px] rounded-xl overflow-hidden">
+            <svg id="growthSvg" class="w-full h-full block"></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Full-Width Bottom Section: Statistical Model Structure, Synthetic Notice, Footer -->
+    <div class="space-y-4">
+      <!-- Statistical Mixed Model Structure (Full Width) -->
+      <div class="card-panel p-5 text-xs w-full">
+        <h4 class="font-semibold text-accent-custom mb-2.5 flex items-center gap-1.5 text-sm">
+          <span>Statistical Mixed Model Structure</span>
+        </h4>
+        <div id="statModelContent" class="text-sub leading-relaxed space-y-2">
+          <!-- Dynamically populated according to current model step -->
+        </div>
+      </div>
+
+      <!-- Synthetic / Simulated Data Notice (Full Width) -->
+      <div class="card-panel p-4 text-xs w-full">
+        <h4 class="font-semibold text-amber-500 mb-1 flex items-center gap-1.5">
+          <span>⚠️ Synthetic / Simulated Data Notice</span>
+        </h4>
+        <p class="text-sub leading-relaxed">
+          All growth curves and measurements displayed in this simulator are <strong class="text-main">100% computer-generated synthetic data</strong> designed for teaching and exploring hierarchical linear mixed-effects models. They do not represent empirical field measurements.
+        </p>
+      </div>
+
+      <!-- Author Attribution Footer -->
+      <footer class="text-center text-xs text-muted-custom py-2 font-medium">
+        Made by HaraldWF (<a href="mailto:hfe@uio.no" class="text-accent-custom hover:underline">hfe@uio.no</a>) using Google Gemini
+      </footer>
+    </div>
+  </main>
+
+  <script>
+    const FISH_COLORS = [
+      '#0284c7', /* sky blue */
+      '#f43f5e', /* rose */
+      '#10b981', /* emerald */
+      '#f59e0b', /* amber */
+      '#a855f7', /* purple */
+      '#06b6d4', /* cyan */
+      '#ec4899', /* pink */
+      '#84cc16'  /* lime */
+    ];
+
+    const FISH_NAMES = [
+      'Trout #1 (Fjord-A)', 'Trout #2 (River-B)', 'Trout #3 (Pelagic)',
+      'Trout #4 (Estuary)', 'Trout #5 (Coastal)', 'Trout #6 (Strait)',
+      'Trout #7 (Reef)', 'Trout #8 (Deep Basin)'
+    ];
+
+    /* Exact Parameter Defaults */
+    const DEFAULT_PARAMS = {
+      beta0: 14.5,      /* Baseline smolt length at Age 1.0 (cm) */
+      beta1: 8.4,       /* Baseline annual growth speed (cm/yr) */
+      sigma_u0: 4.0,    /* Random intercept SD (cm) */
+      sigma_u1: 4.0,    /* Random slope SD (cm/yr) */
+      rho: -0.50,       /* Slope-Intercept correlation */
+      phi: 0.80,        /* Continuous AR(1) parameter */
+      sigma_eps: 1.6,   /* Residual noise SD (cm) */
+      numFish: 8,
+      avgMeasurementsPerFish: 8
+    };
+
+    let params = { ...DEFAULT_PARAMS };
+    let currentStep = 0; /* 0 to 5 */
+    let selectedFishId = null;
+
+    /* Theme State & OS Preference Detection */
+    let isDarkMode = false;
+    let userHasManualOverride = false;
+
+    function applyTheme(dark) {
+      isDarkMode = Boolean(dark);
+      const htmlEl = document.documentElement;
+      const themeIcon = document.getElementById("themeIcon");
+      const themeText = document.getElementById("themeText");
+
+      if (isDarkMode) {
+        htmlEl.classList.add("dark");
+        if (themeIcon) themeIcon.textContent = "☀️";
+        if (themeText) themeText.textContent = "Light mode";
+      } else {
+        htmlEl.classList.remove("dark");
+        if (themeIcon) themeIcon.textContent = "🌙";
+        if (themeText) themeText.textContent = "Dark mode";
+      }
+
+      updateAllVisualizations();
+    }
+
+    document.getElementById("themeToggleBtn").addEventListener("click", () => {
+      userHasManualOverride = true;
+      applyTheme(!isDarkMode);
+    });
+
+    const darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+    darkModeMediaQuery.addEventListener("change", (e) => {
+      if (!userHasManualOverride) {
+        applyTheme(e.matches);
+      }
+    });
+
+    /* Cohort Standard Normal Draws */
+    let fishVariates = [];
+
+    function randomNormals() {
+      let u1 = 0, u2 = 0;
+      while (u1 === 0) u1 = Math.random();
+      while (u2 === 0) u2 = Math.random();
+      const z0 = Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+      const z1 = Math.sqrt(-2.0 * Math.log(u1)) * Math.sin(2.0 * Math.PI * u2);
+      return [z0, z1];
+    }
+
+    function generateCohortVariates() {
+      fishVariates = [];
+      // Exact average of 8 measurements per fish across the 8 trout (sum = 64)
+      const counts = [8, 7, 9, 8, 10, 7, 9, 6];
+
+      for (let i = 0; i < params.numFish; i++) {
+        const [z_u0, z_u1_indep] = randomNormals();
+        const nObs = counts[i % counts.length];
+
+        // Irregular measurement ages between 1.0 and 4.0 years
+        const ages = [1.0];
+        for (let j = 1; j < nObs - 1; j++) {
+          const baseAge = 1.0 + (j / (nObs - 1)) * 3.0;
+          const jitter = (Math.random() - 0.5) * 0.24;
+          ages.push(Math.max(1.04, Math.min(3.96, baseAge + jitter)));
+        }
+        ages.push(4.0);
+        ages.sort((a, b) => a - b);
+
+        const innovations = [];
+        for (let t = 0; t < ages.length; t++) {
+          const [n] = randomNormals();
+          innovations.push(n);
+        }
+
+        fishVariates.push({
+          id: i,
+          name: FISH_NAMES[i],
+          color: FISH_COLORS[i],
+          ages: ages,
+          z_u0: z_u0,
+          z_u1_indep: z_u1_indep,
+          innovations: innovations
+        });
+      }
+    }
+
+    function calculateSimulationData() {
+      const activeU0 = currentStep >= 1;
+      const activeBeta1 = currentStep >= 2;
+      const activeU1 = currentStep >= 3;
+      const activeRho = currentStep >= 4;
+      const activeAR1 = currentStep >= 5;
+
+      const s0 = activeU0 ? params.sigma_u0 : 0.0;
+      const s1 = activeU1 ? params.sigma_u1 : 0.0;
+      const r = activeRho ? params.rho : 0.0;
+      const p_phi = activeAR1 ? params.phi : 0.0;
+      const s_eps = params.sigma_eps;
+
+      // Cholesky factor of 2x2 random effects covariance matrix
+      const L00 = s0;
+      const L10 = r * s1;
+      const L11 = s1 * Math.sqrt(Math.max(0, 1 - r * r));
+
+      return fishVariates.map((fish) => {
+        const u0 = L00 * fish.z_u0;
+        const u1 = (L10 * fish.z_u0) + (L11 * fish.z_u1_indep);
+
+        const residuals = [];
+        let prevE = 0;
+        let prevAge = fish.ages[0];
+
+        const stationarySd = p_phi > 0 && Math.abs(p_phi) < 1
+          ? s_eps / Math.sqrt(1 - p_phi * p_phi)
+          : s_eps;
+
+        fish.ages.forEach((age, idx) => {
+          let e_t = 0;
+          if (idx === 0) {
+            e_t = activeAR1
+              ? fish.innovations[0] * stationarySd
+              : fish.innovations[0] * s_eps;
+          } else {
+            const dt = Math.max(0.01, age - prevAge);
+            if (activeAR1) {
+              const phi_dt = Math.pow(Math.max(0.0001, p_phi), dt);
+              const condSd = Math.sqrt(Math.max(0, 1 - phi_dt * phi_dt)) * stationarySd;
+              e_t = (phi_dt * prevE) + (fish.innovations[idx] * condSd);
+            } else {
+              e_t = fish.innovations[idx] * s_eps;
+            }
+          }
+          prevE = e_t;
+          prevAge = age;
+          residuals.push(e_t);
+        });
+
+        const trajectory = fish.ages.map((age, idx) => {
+          const t_rel = age - 1.0;
+          const fixedMean = params.beta0 + (activeBeta1 ? params.beta1 * t_rel : 0);
+          const individualMean = (params.beta0 + u0) + (activeBeta1 ? (params.beta1 + u1) * t_rel : 0);
+          const observedLength = individualMean + residuals[idx];
+
+          return {
+            age: age,
+            timeRel: t_rel,
+            fixedMean: fixedMean,
+            individualMean: individualMean,
+            residual: residuals[idx],
+            observedLength: observedLength
+          };
+        });
+
+        return {
+          id: fish.id,
+          name: fish.name,
+          color: fish.color,
+          trajectory: trajectory
+        };
+      });
+    }
+
+    const tooltip = d3.select("body").append("div")
+      .attr("class", "d3-tooltip")
+      .style("opacity", 0);
+
+    const stepExplanations = [
+      {
+        title: "1. Residual Variation Only",
+        formula: "y_ij = β₀ + ε_ij",
+        desc: "The simplest null model. All observations are randomly scattered around a single grand mean (β₀ = 14.5 cm). There is no growth over time and no recognition of which measurements belong to which fish.",
+        spec: `
+          <div class="mono inner-panel px-3 py-1.5 rounded-lg text-xs mb-2">
+            y_ij = β₀ + ε_ij
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div><strong class="text-main">Random Effects:</strong> None (u₀ᵢ = 0, u₁ᵢ = 0).</div>
+            <div><strong class="text-main">Residual Distribution:</strong> ε_ij ~ i.i.d. N(0, σ_ε²)</div>
+            <div><strong class="text-main">Marginal Variance:</strong> Var(y_ij) = σ_ε² (constant variance, flat expected trajectory).</div>
+          </div>
+        `
+      },
+      {
+        title: "2. Random Intercept",
+        formula: "y_ij = β₀ + u₀ᵢ + ε_ij",
+        desc: "Measurements are clustered by fish. Each sea trout has an individual baseline size offset u₀ᵢ ~ N(0, σ_u0²), introducing intra-class correlation (ICC). Still no growth trend over time.",
+        spec: `
+          <div class="mono inner-panel px-3 py-1.5 rounded-lg text-xs mb-2">
+            y_ij = (β₀ + u₀ᵢ) + ε_ij, &nbsp;&nbsp; u₀ᵢ ~ N(0, σ_u0²)
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div><strong class="text-main">Random Effects:</strong> u₀ᵢ ~ N(0, σ_u0²) models individual variation in baseline size.</div>
+            <div><strong class="text-main">Residual Distribution:</strong> ε_ij ~ i.i.d. N(0, σ_ε²), independent of u₀ᵢ.</div>
+            <div><strong class="text-main">Marginal Covariance:</strong> Var(y_ij) = σ_u0² + σ_ε²; Cov(y_ij, y_ik) = σ_u0² (compound symmetry).</div>
+          </div>
+        `
+      },
+      {
+        title: "3. Fixed Effect Trend",
+        formula: "y_ij = (β₀ + u₀ᵢ) + β₁·t_ij + ε_ij",
+        desc: "Introduces the population average growth rate over time (β₁). All sea trout trajectories now slope upwards at the exact same rate in parallel.",
+        spec: `
+          <div class="mono inner-panel px-3 py-1.5 rounded-lg text-xs mb-2">
+            y_ij = (β₀ + u₀ᵢ) + β₁·t_ij + ε_ij, &nbsp;&nbsp; t_ij = Age_ij − 1
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div><strong class="text-main">Random Effects:</strong> u₀ᵢ ~ N(0, σ_u0²). No random slopes yet.</div>
+            <div><strong class="text-main">Residual Distribution:</strong> ε_ij ~ i.i.d. N(0, σ_ε²).</div>
+            <div><strong class="text-main">Marginal Variance:</strong> Var(y_ij) = σ_u0² + σ_ε² (constant homoscedastic variance across ages).</div>
+          </div>
+        `
+      },
+      {
+        title: "4. Random Trend (Slope)",
+        formula: "y_ij = (β₀ + u₀ᵢ) + (β₁ + u₁ᵢ)·t_ij + ε_ij",
+        desc: "Allows individual variation in the annual growth slope via u₁ᵢ ~ N(0, σ_u1²). Trajectories fan out or cross over across the 4-year span.",
+        spec: `
+          <div class="mono inner-panel px-3 py-1.5 rounded-lg text-xs mb-2">
+            y_ij = (β₀ + u₀ᵢ) + (β₁ + u₁ᵢ)·t_ij + ε_ij, &nbsp;&nbsp; u₁ᵢ ~ N(0, σ_u1²)
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div><strong class="text-main">Random Effects:</strong> Uncorrelated random intercepts and slopes: Σ_u = diag(σ_u0², σ_u1²).</div>
+            <div><strong class="text-main">Residual Distribution:</strong> ε_ij ~ i.i.d. N(0, σ_ε²).</div>
+            <div><strong class="text-main">Marginal Variance:</strong> Var(y_ij | t_ij) = σ_u0² + t_ij²·σ_u1² + σ_ε² (variance increases quadratically with age).</div>
+          </div>
+        `
+      },
+      {
+        title: "5. Intercept-Trend Correlation",
+        formula: "[u₀ᵢ, u₁ᵢ]ᵀ ~ BVN(0, Σ), Corr(u₀ᵢ, u₁ᵢ) = ρ",
+        desc: "Couples initial smolt length and annual growth slope via correlation ρ (default -0.50). Negative ρ models biological compensatory growth where smaller smolts catch up.",
+        spec: `
+          <div class="mono inner-panel px-3 py-1.5 rounded-lg text-xs mb-2">
+            [u₀ᵢ, u₁ᵢ]ᵀ ~ N(0, Σ), &nbsp; Σ = [[σ_u0², ρ·σ_u0·σ_u1], [ρ·σ_u0·σ_u1, σ_u1²]]
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div><strong class="text-main">Random Effects:</strong> Bivariate normal random effects with covariance Cov(u₀ᵢ, u₁ᵢ) = ρ·σ_u0·σ_u1.</div>
+            <div><strong class="text-main">Residual Distribution:</strong> ε_ij ~ i.i.d. N(0, σ_ε²).</div>
+            <div><strong class="text-main">Marginal Variance:</strong> Var(y_ij | t_ij) = σ_u0² + 2·t_ij·ρ·σ_u0·σ_u1 + t_ij²·σ_u1² + σ_ε².</div>
+          </div>
+        `
+      },
+      {
+        title: "6. Residual Autocorrelation",
+        formula: "Cov(ε_ij, ε_ik) = [σ_ε² / (1 − φ²)] · φ^|t_ij − t_ik|",
+        desc: "Introduces continuous-time autoregressive CAR(1) correlation across irregular measurement intervals Δt, capturing multi-month persistence in unobserved states.",
+        spec: `
+          <div class="mono inner-panel px-3 py-1.5 rounded-lg text-xs mb-2">
+            y_ij = (β₀ + u₀ᵢ) + (β₁ + u₁ᵢ)·t_ij + ε_ij, &nbsp;&nbsp; ε_ij = φ^(Δt_ij)·ε_{i,j-1} + η_ij
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+            <div><strong class="text-main">Random Effects:</strong> [u₀ᵢ, u₁ᵢ]ᵀ ~ N(0, Σ) with intercept-slope correlation ρ.</div>
+            <div><strong class="text-main">CAR(1) Residuals:</strong> Autoregressive correlation decaying exponentially with time gap Δt = |t_ij − t_ik|.</div>
+            <div><strong class="text-main">Full Marginal Covariance:</strong> Includes the structured AR(1) covariance matrix alongside the random effects covariance structure.</div>
+          </div>
+        `
+      }
+    ];
+
+    function updateStepInfo() {
+      const step = stepExplanations[currentStep];
+      document.getElementById("currentStepBadge").innerText = `Step ${currentStep + 1} / 6`;
+      document.getElementById("activeModelFormula").innerText = step.formula;
+
+      const card = document.getElementById("stepInfoCard");
+      card.innerHTML = `
+        <div class="font-semibold text-accent-custom text-xs">${step.title}</div>
+        <p class="text-sub text-[11px] leading-relaxed">${step.desc}</p>
+      `;
+
+      const statCard = document.getElementById("statModelContent");
+      if (statCard) {
+        statCard.innerHTML = step.spec;
+      }
+
+      document.querySelectorAll(".step-pill").forEach(pill => {
+        const pStep = parseInt(pill.getAttribute("data-step"), 10);
+        if (pStep === currentStep) {
+          pill.classList.add("active");
+        } else {
+          pill.classList.remove("active");
+        }
+      });
+
+      updateParameterVisibility(currentStep);
+    }
+
+    function updateParameterVisibility(step) {
+      document.querySelectorAll(".parameter-control").forEach(el => {
+        const paramStep = parseInt(el.getAttribute("data-step"), 10);
+        if (paramStep > step) {
+          el.style.display = "none";
+        } else {
+          el.style.display = "block";
+          // Using a negative order ensures the highest step number (newest parameter) 
+          // sits at the top of the flex-col container.
+          el.style.order = -paramStep;
+        }
+      });
+    }
+
+    function drawGrowthChart(simData) {
+      const container = document.getElementById("growthChartContainer");
+      const width = container.clientWidth || 720;
+      const height = Math.max(520, container.clientHeight || 560);
+
+      const svg = d3.select("#growthSvg")
+        .attr("width", width)
+        .attr("height", height);
+
+      svg.selectAll("*").remove();
+
+      const margin = { top: 28, right: 38, bottom: 48, left: 58 };
+      const innerWidth = width - margin.left - margin.right;
+      const innerHeight = height - margin.top - margin.bottom;
+
+      const g = svg.append("g")
+        .attr("transform", `translate(${margin.left},${margin.top})`);
+
+      // High-contrast theme-aware colors for D3 chart
+      const gridColor = isDarkMode ? "#334155" : "#cbd5e1";
+      const gridOpacity = isDarkMode ? 0.55 : 0.7;
+      const axisColor = isDarkMode ? "#475569" : "#94a3b8";
+      const textColor = isDarkMode ? "#cbd5e1" : "#334155";
+      const dotStrokeColor = isDarkMode ? "#0f172a" : "#ffffff";
+
+      // X scale: Age 1.0 to 4.0 years
+      const xScale = d3.scaleLinear()
+        .domain([1, 4])
+        .range([0, innerWidth]);
+
+      // Y scale
+      const allLengths = [];
+      simData.forEach(f => f.trajectory.forEach(p => allLengths.push(p.observedLength)));
+      const minY = Math.max(2, Math.floor(d3.min(allLengths) - 3));
+      const maxY = Math.ceil(d3.max(allLengths) + 4);
+
+      const yScale = d3.scaleLinear()
+        .domain([minY, maxY])
+        .nice()
+        .range([innerHeight, 0]);
+
+      // Horizontal Gridlines
+      g.append("g")
+        .attr("color", gridColor)
+        .attr("opacity", gridOpacity)
+        .call(d3.axisLeft(yScale)
+          .tickSize(-innerWidth)
+          .tickFormat("")
+        )
+        .call(g => g.select(".domain").remove());
+
+      // Vertical Gridlines
+      g.append("g")
+        .attr("transform", `translate(0,${innerHeight})`)
+        .attr("color", gridColor)
+        .attr("opacity", gridOpacity)
+        .call(d3.axisBottom(xScale)
+          .ticks(6)
+          .tickSize(-innerHeight)
+          .tickFormat("")
+        )
+        .call(g => g.select(".domain").remove());
+
+      // Axes
+      const xAxis = d3.axisBottom(xScale).ticks(6).tickFormat(d => `${d.toFixed(1)} yr`);
+      const yAxis = d3.axisLeft(yScale).ticks(7).tickFormat(d => `${d} cm`);
+
+      g.append("g")
+        .attr("transform", `translate(0,${innerHeight})`)
+        .attr("color", axisColor)
+        .call(xAxis)
+        .selectAll("text")
+        .attr("fill", textColor)
+        .attr("font-size", "11px");
+
+      g.append("g")
+        .attr("color", axisColor)
+        .call(yAxis)
+        .selectAll("text")
+        .attr("fill", textColor)
+        .attr("font-size", "11px");
+
+      // Axis titles
+      g.append("text")
+        .attr("x", innerWidth / 2)
+        .attr("y", innerHeight + 38)
+        .attr("fill", textColor)
+        .attr("font-size", "12px")
+        .attr("font-weight", "500")
+        .attr("text-anchor", "middle")
+        .text("Sea Trout Age (Years, irregular measurement times from 1.0 to 4.0)");
+
+      g.append("text")
+        .attr("transform", "rotate(-90)")
+        .attr("x", -innerHeight / 2)
+        .attr("y", -42)
+        .attr("fill", textColor)
+        .attr("font-size", "12px")
+        .attr("font-weight", "500")
+        .attr("text-anchor", "middle")
+        .text("Total Body Length (cm)");
+
+      // Click background to clear fish isolation
+      svg.on("click", (event) => {
+        if (event.target.tagName === "svg") {
+          selectedFishId = null;
+          updateAllVisualizations();
+        }
+      });
+
+      // Straight line generator connecting consecutive observed points
+      const lineGen = d3.line()
+        .x(d => xScale(d.age))
+        .y(d => yScale(d.observedLength))
+        .curve(d3.curveLinear);
+
+      // Draw each sea trout's dotted straight trajectory and larger points
+      simData.forEach(fish => {
+        const isSelected = selectedFishId === fish.id;
+        const isFaded = selectedFishId !== null && !isSelected;
+        const opacity = isFaded ? 0.15 : 0.92;
+        const strokeWidth = isSelected ? 3.2 : 2.0;
+
+        const fishGroup = g.append("g")
+          .style("transition", "opacity 0.2s ease")
+          .attr("opacity", opacity);
+
+        // Straight dotted path connecting observations
+        fishGroup.append("path")
+          .datum(fish.trajectory)
+          .attr("fill", "none")
+          .attr("stroke", fish.color)
+          .attr("stroke-width", strokeWidth)
+          .attr("stroke-dasharray", "3 4")
+          .style("cursor", "pointer")
+          .attr("d", lineGen)
+          .on("click", (event) => {
+            event.stopPropagation();
+            selectedFishId = selectedFishId === fish.id ? null : fish.id;
+            updateAllVisualizations();
+          });
+
+        // Larger dots at each irregular measurement time
+        fish.trajectory.forEach((pt) => {
+          fishGroup.append("circle")
+            .attr("cx", xScale(pt.age))
+            .attr("cy", yScale(pt.observedLength))
+            .attr("r", isSelected ? 7.0 : 5.5)
+            .attr("fill", fish.color)
+            .attr("stroke", dotStrokeColor)
+            .attr("stroke-width", 2.0)
+            .style("cursor", "pointer")
+            .on("mouseover", function(event) {
+              d3.select(this).attr("r", 7.0);
+              tooltip.transition().duration(100).style("opacity", 1);
+              tooltip.html(`
+                <div class="font-bold mb-0.5" style="color:${fish.color}">${fish.name}</div>
+                <div>Age: <strong>${pt.age.toFixed(2)} yrs</strong></div>
+                <div>Measured Length: <strong>${pt.observedLength.toFixed(1)} cm</strong></div>
+                <div style="opacity:0.75; font-size:10px; margin-top:3px;">
+                  Expected: ${pt.individualMean.toFixed(1)} cm | Residual: ${pt.residual >= 0 ? '+' : ''}${pt.residual.toFixed(2)} cm
+                </div>
+              `)
+              .style("left", (event.pageX + 14) + "px")
+              .style("top", (event.pageY - 28) + "px");
+            })
+            .on("mouseout", function() {
+              d3.select(this).attr("r", isSelected ? 7.0 : 5.5);
+              tooltip.transition().duration(180).style("opacity", 0);
+            })
+            .on("click", (event) => {
+              event.stopPropagation();
+              selectedFishId = selectedFishId === fish.id ? null : fish.id;
+              updateAllVisualizations();
+            });
+        });
+
+        // Label at Age 4.0
+        const lastPt = fish.trajectory[fish.trajectory.length - 1];
+        fishGroup.append("text")
+          .attr("x", xScale(lastPt.age) + 7)
+          .attr("y", yScale(lastPt.observedLength) + 3.5)
+          .attr("fill", fish.color)
+          .attr("font-size", "10.5px")
+          .attr("font-weight", "600")
+          .style("cursor", "pointer")
+          .text(`#${fish.id + 1}`)
+          .on("click", (event) => {
+            event.stopPropagation();
+            selectedFishId = selectedFishId === fish.id ? null : fish.id;
+            updateAllVisualizations();
+          });
+      });
+    }
+
+    function updateAllVisualizations() {
+      updateStepInfo();
+      const simData = calculateSimulationData();
+      drawGrowthChart(simData);
+    }
+
+    function setStep(newStep) {
+      currentStep = Math.max(0, Math.min(5, newStep));
+      updateAllVisualizations();
+    }
+
+    document.querySelectorAll(".step-pill").forEach(button => {
+      button.addEventListener("click", () => {
+        setStep(parseInt(button.getAttribute("data-step"), 10));
+      });
+    });
+
+    // Keyboard Arrow Navigation between steps
+    window.addEventListener("keydown", (e) => {
+      if (document.activeElement && document.activeElement.tagName === "INPUT") {
+        return;
+      }
+      if (e.key === "ArrowRight" || e.key === "ArrowDown") {
+        e.preventDefault();
+        setStep(currentStep + 1);
+      } else if (e.key === "ArrowLeft" || e.key === "ArrowUp") {
+        e.preventDefault();
+        setStep(currentStep - 1);
+      }
+    });
+
+    document.getElementById("resampleBtn").addEventListener("click", () => {
+      generateCohortVariates();
+      updateAllVisualizations();
+    });
+
+    function attachSlider(id, paramKey, formatFn) {
+      const slider = document.getElementById(`slider_${id}`);
+      const valDisplay = document.getElementById(`val_${id}`);
+      if (!slider || !valDisplay) return;
+      slider.addEventListener("input", (e) => {
+        const val = parseFloat(e.target.value);
+        params[paramKey] = val;
+        valDisplay.innerText = formatFn(val);
+        updateAllVisualizations();
+      });
+    }
+
+    function syncSlidersWithParams() {
+      document.getElementById("slider_beta1").value = params.beta1;
+      document.getElementById("val_beta1").innerText = `${params.beta1.toFixed(1)} cm/yr`;
+
+      document.getElementById("slider_sigma_u0").value = params.sigma_u0;
+      document.getElementById("val_sigma_u0").innerText = `${params.sigma_u0.toFixed(1)} cm`;
+
+      document.getElementById("slider_sigma_u1").value = params.sigma_u1;
+      document.getElementById("val_sigma_u1").innerText = `${params.sigma_u1.toFixed(1)} cm/yr`;
+
+      document.getElementById("slider_rho").value = params.rho;
+      document.getElementById("val_rho").innerText = params.rho.toFixed(2);
+
+      document.getElementById("slider_phi").value = params.phi;
+      document.getElementById("val_phi").innerText = params.phi.toFixed(2);
+
+      document.getElementById("slider_sigma_eps").value = params.sigma_eps;
+      document.getElementById("val_sigma_eps").innerText = `${params.sigma_eps.toFixed(1)} cm`;
+    }
+
+    attachSlider("beta1", "beta1", v => `${v.toFixed(1)} cm/yr`);
+    attachSlider("sigma_u0", "sigma_u0", v => `${v.toFixed(1)} cm`);
+    attachSlider("sigma_u1", "sigma_u1", v => `${v.toFixed(1)} cm/yr`);
+    attachSlider("rho", "rho", v => v.toFixed(2));
+    attachSlider("phi", "phi", v => v.toFixed(2));
+    attachSlider("sigma_eps", "sigma_eps", v => `${v.toFixed(1)} cm`);
+
+    window.addEventListener("resize", () => {
+      updateAllVisualizations();
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      generateCohortVariates();
+      syncSlidersWithParams();
+      const clientPrefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+      applyTheme(clientPrefersDark);
+      setStep(0);
+    });
+  </script>
+</body>
+</html>
