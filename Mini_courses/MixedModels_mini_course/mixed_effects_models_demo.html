@@ -14,6 +14,22 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- MathJax Configuration and Script -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['\\(', '\\)']],
+        displayMath: [['\\[', '\\]']],
+        processEscapes: true
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
   <style>
     :root {
       --bg-page: #f8fafc;
@@ -314,8 +330,8 @@
           <div id="parametersContainer" class="flex flex-col gap-4">
             <!-- Measurement / Residual Noise (Step 0) -->
             <div class="space-y-1.5 parameter-control" id="ctrl_sigma_eps" data-step="0">
-              <div class="flex justify-between text-xs">
-                <label class="text-sub font-medium">Residual Noise SD (<span class="mono">σ_ε</span>)</label>
+              <div class="flex justify-between text-xs items-center">
+                <label class="text-sub font-medium">Residual Noise SD (\( \sigma_\varepsilon \))</label>
                 <span id="val_sigma_eps" class="mono text-accent-custom font-semibold">1.6 cm</span>
               </div>
               <input id="slider_sigma_eps" type="range" min="0.2" max="5.0" step="0.1" value="1.6" class="w-full cursor-pointer">
@@ -324,8 +340,8 @@
 
             <!-- Intercept Variance (Step 1) -->
             <div class="space-y-1.5 parameter-control" id="ctrl_sigma_u0" data-step="1">
-              <div class="flex justify-between text-xs">
-                <label class="text-sub font-medium">Random Intercept SD (<span class="mono">σ_u0</span>)</label>
+              <div class="flex justify-between text-xs items-center">
+                <label class="text-sub font-medium">Random Intercept SD (\( \sigma_{u0} \))</label>
                 <span id="val_sigma_u0" class="mono text-accent-custom font-semibold">4.0 cm</span>
               </div>
               <input id="slider_sigma_u0" type="range" min="0" max="12" step="0.2" value="4.0" class="w-full cursor-pointer">
@@ -334,18 +350,18 @@
 
             <!-- Baseline Growth Speed (Step 2) -->
             <div class="space-y-1.5 parameter-control" id="ctrl_beta1" data-step="2">
-              <div class="flex justify-between text-xs">
-                <label class="text-sub font-medium">Population Growth Speed (<span class="mono">β₁</span>)</label>
+              <div class="flex justify-between text-xs items-center">
+                <label class="text-sub font-medium">Population Growth Speed (\( \beta_1 \))</label>
                 <span id="val_beta1" class="mono text-accent-custom font-semibold">8.4 cm/yr</span>
               </div>
               <input id="slider_beta1" type="range" min="2.0" max="15.0" step="0.2" value="8.4" class="w-full cursor-pointer">
-              <p class="text-[11px] text-muted-custom">Population mean annual growth rate (starting from β₀ = 14.5 cm at Age 1).</p>
+              <p class="text-[11px] text-muted-custom">Population mean annual growth rate (starting from \( \beta_0 = 14.5 \) cm at Age 1).</p>
             </div>
 
             <!-- Slope Variance (Step 3) -->
             <div class="space-y-1.5 parameter-control" id="ctrl_sigma_u1" data-step="3">
-              <div class="flex justify-between text-xs">
-                <label class="text-sub font-medium">Random Slope SD (<span class="mono">σ_u1</span>)</label>
+              <div class="flex justify-between text-xs items-center">
+                <label class="text-sub font-medium">Random Slope SD (\( \sigma_{u1} \))</label>
                 <span id="val_sigma_u1" class="mono text-accent-custom font-semibold">4.0 cm/yr</span>
               </div>
               <input id="slider_sigma_u1" type="range" min="0" max="8" step="0.1" value="4.0" class="w-full cursor-pointer">
@@ -354,8 +370,8 @@
 
             <!-- Correlation (Step 4) -->
             <div class="space-y-1.5 parameter-control" id="ctrl_rho" data-step="4">
-              <div class="flex justify-between text-xs">
-                <label class="text-sub font-medium">Intercept-Slope Correlation (<span class="mono">ρ</span>)</label>
+              <div class="flex justify-between text-xs items-center">
+                <label class="text-sub font-medium">Intercept-Slope Correlation (\( \rho \))</label>
                 <span id="val_rho" class="mono text-accent-custom font-semibold">-0.50</span>
               </div>
               <input id="slider_rho" type="range" min="-0.95" max="0.95" step="0.05" value="-0.50" class="w-full cursor-pointer">
@@ -364,12 +380,12 @@
 
             <!-- Autoregression phi (Step 5) -->
             <div class="space-y-1.5 parameter-control" id="ctrl_phi" data-step="5">
-              <div class="flex justify-between text-xs">
-                <label class="text-sub font-medium">Autoregressive Persistence (<span class="mono">φ</span>)</label>
+              <div class="flex justify-between text-xs items-center">
+                <label class="text-sub font-medium">Autoregressive Persistence (\( \phi \))</label>
                 <span id="val_phi" class="mono text-accent-custom font-semibold">0.80</span>
               </div>
               <input id="slider_phi" type="range" min="0.0" max="0.95" step="0.05" value="0.80" class="w-full cursor-pointer">
-              <p class="text-[11px] text-muted-custom">Continuous-time persistence (φ^Δt) of feeding & sea temperature.</p>
+              <p class="text-[11px] text-muted-custom">Continuous-time persistence (\( \phi^{\Delta t} \)) of feeding & sea temperature.</p>
             </div>
           </div>
         </div>
@@ -627,90 +643,90 @@
     const stepExplanations = [
       {
         title: "1. Residual Variation Only",
-        formula: "y_ij = β₀ + ε_ij",
-        desc: "The simplest null model. All observations are randomly scattered around a single grand mean (β₀ = 14.5 cm). There is no growth over time and no recognition of which measurements belong to which fish.",
+        formula: "\\( y_{ij} = \\beta_0 + \\varepsilon_{ij} \\)",
+        desc: "The simplest null model. All observations are randomly scattered around a single grand mean (\\( \\beta_0 = 14.5 \\text{ cm} \\)). There is no growth over time and no recognition of which measurements belong to which fish.",
         spec: `
-          <div class="mono inner-panel px-3 py-1.5 rounded-lg text-xs mb-2">
-            y_ij = β₀ + ε_ij
+          <div class="inner-panel px-3 py-3 rounded-lg text-sm mb-2 overflow-x-auto text-center">
+            \\[ y_{ij} = \\beta_0 + \\varepsilon_{ij} \\]
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <div><strong class="text-main">Random Effects:</strong> None (u₀ᵢ = 0, u₁ᵢ = 0).</div>
-            <div><strong class="text-main">Residual Distribution:</strong> ε_ij ~ i.i.d. N(0, σ_ε²)</div>
-            <div><strong class="text-main">Marginal Variance:</strong> Var(y_ij) = σ_ε² (constant variance, flat expected trajectory).</div>
+            <div><strong class="text-main">Random Effects:</strong> None (\\( u_{0i} = 0, u_{1i} = 0 \\)).</div>
+            <div><strong class="text-main">Residual Distribution:</strong> \\( \\varepsilon_{ij} \\sim \\text{i.i.d. } \\mathcal{N}(0, \\sigma_\\varepsilon^2) \\)</div>
+            <div><strong class="text-main">Marginal Variance:</strong> \\( \\text{Var}(y_{ij}) = \\sigma_\\varepsilon^2 \\) (constant variance, flat expected trajectory).</div>
           </div>
         `
       },
       {
         title: "2. Random Intercept",
-        formula: "y_ij = β₀ + u₀ᵢ + ε_ij",
-        desc: "Measurements are clustered by fish. Each sea trout has an individual baseline size offset u₀ᵢ ~ N(0, σ_u0²), introducing intra-class correlation (ICC). Still no growth trend over time.",
+        formula: "\\( y_{ij} = \\beta_0 + u_{0i} + \\varepsilon_{ij} \\)",
+        desc: "Measurements are clustered by fish. Each sea trout has an individual baseline size offset \\( u_{0i} \\sim \\mathcal{N}(0, \\sigma_{u0}^2) \\), introducing intra-class correlation (ICC). Still no growth trend over time.",
         spec: `
-          <div class="mono inner-panel px-3 py-1.5 rounded-lg text-xs mb-2">
-            y_ij = (β₀ + u₀ᵢ) + ε_ij, &nbsp;&nbsp; u₀ᵢ ~ N(0, σ_u0²)
+          <div class="inner-panel px-3 py-3 rounded-lg text-sm mb-2 overflow-x-auto text-center">
+            \\[ y_{ij} = (\\beta_0 + u_{0i}) + \\varepsilon_{ij}, \\quad u_{0i} \\sim \\mathcal{N}(0, \\sigma_{u0}^2) \\]
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <div><strong class="text-main">Random Effects:</strong> u₀ᵢ ~ N(0, σ_u0²) models individual variation in baseline size.</div>
-            <div><strong class="text-main">Residual Distribution:</strong> ε_ij ~ i.i.d. N(0, σ_ε²), independent of u₀ᵢ.</div>
-            <div><strong class="text-main">Marginal Covariance:</strong> Var(y_ij) = σ_u0² + σ_ε²; Cov(y_ij, y_ik) = σ_u0² (compound symmetry).</div>
+            <div><strong class="text-main">Random Effects:</strong> \\( u_{0i} \\sim \\mathcal{N}(0, \\sigma_{u0}^2) \\) models individual variation in baseline size.</div>
+            <div><strong class="text-main">Residual Distribution:</strong> \\( \\varepsilon_{ij} \\sim \\text{i.i.d. } \\mathcal{N}(0, \\sigma_\\varepsilon^2) \\), independent of \\( u_{0i} \\).</div>
+            <div><strong class="text-main">Marginal Covariance:</strong> \\( \\text{Var}(y_{ij}) = \\sigma_{u0}^2 + \\sigma_\\varepsilon^2 \\); \\( \\text{Cov}(y_{ij}, y_{ik}) = \\sigma_{u0}^2 \\) (compound symmetry).</div>
           </div>
         `
       },
       {
         title: "3. Fixed Effect Trend",
-        formula: "y_ij = (β₀ + u₀ᵢ) + β₁·t_ij + ε_ij",
-        desc: "Introduces the population average growth rate over time (β₁). All sea trout trajectories now slope upwards at the exact same rate in parallel.",
+        formula: "\\( y_{ij} = (\\beta_0 + u_{0i}) + \\beta_1 t_{ij} + \\varepsilon_{ij} \\)",
+        desc: "Introduces the population average growth rate over time (\\( \\beta_1 \\)). All sea trout trajectories now slope upwards at the exact same rate in parallel.",
         spec: `
-          <div class="mono inner-panel px-3 py-1.5 rounded-lg text-xs mb-2">
-            y_ij = (β₀ + u₀ᵢ) + β₁·t_ij + ε_ij, &nbsp;&nbsp; t_ij = Age_ij − 1
+          <div class="inner-panel px-3 py-3 rounded-lg text-sm mb-2 overflow-x-auto text-center">
+            \\[ y_{ij} = (\\beta_0 + u_{0i}) + \\beta_1 t_{ij} + \\varepsilon_{ij}, \\quad t_{ij} = \\text{Age}_{ij} - 1 \\]
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <div><strong class="text-main">Random Effects:</strong> u₀ᵢ ~ N(0, σ_u0²). No random slopes yet.</div>
-            <div><strong class="text-main">Residual Distribution:</strong> ε_ij ~ i.i.d. N(0, σ_ε²).</div>
-            <div><strong class="text-main">Marginal Variance:</strong> Var(y_ij) = σ_u0² + σ_ε² (constant homoscedastic variance across ages).</div>
+            <div><strong class="text-main">Random Effects:</strong> \\( u_{0i} \\sim \\mathcal{N}(0, \\sigma_{u0}^2) \\). No random slopes yet.</div>
+            <div><strong class="text-main">Residual Distribution:</strong> \\( \\varepsilon_{ij} \\sim \\text{i.i.d. } \\mathcal{N}(0, \\sigma_\\varepsilon^2) \\).</div>
+            <div><strong class="text-main">Marginal Variance:</strong> \\( \\text{Var}(y_{ij}) = \\sigma_{u0}^2 + \\sigma_\\varepsilon^2 \\) (constant homoscedastic variance across ages).</div>
           </div>
         `
       },
       {
         title: "4. Random Trend (Slope)",
-        formula: "y_ij = (β₀ + u₀ᵢ) + (β₁ + u₁ᵢ)·t_ij + ε_ij",
-        desc: "Allows individual variation in the annual growth slope via u₁ᵢ ~ N(0, σ_u1²). Trajectories fan out or cross over across the 4-year span.",
+        formula: "\\( y_{ij} = (\\beta_0 + u_{0i}) + (\\beta_1 + u_{1i})t_{ij} + \\varepsilon_{ij} \\)",
+        desc: "Allows individual variation in the annual growth slope via \\( u_{1i} \\sim \\mathcal{N}(0, \\sigma_{u1}^2) \\). Trajectories fan out or cross over across the 4-year span.",
         spec: `
-          <div class="mono inner-panel px-3 py-1.5 rounded-lg text-xs mb-2">
-            y_ij = (β₀ + u₀ᵢ) + (β₁ + u₁ᵢ)·t_ij + ε_ij, &nbsp;&nbsp; u₁ᵢ ~ N(0, σ_u1²)
+          <div class="inner-panel px-3 py-3 rounded-lg text-sm mb-2 overflow-x-auto text-center">
+            \\[ y_{ij} = (\\beta_0 + u_{0i}) + (\\beta_1 + u_{1i})t_{ij} + \\varepsilon_{ij}, \\quad u_{1i} \\sim \\mathcal{N}(0, \\sigma_{u1}^2) \\]
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <div><strong class="text-main">Random Effects:</strong> Uncorrelated random intercepts and slopes: Σ_u = diag(σ_u0², σ_u1²).</div>
-            <div><strong class="text-main">Residual Distribution:</strong> ε_ij ~ i.i.d. N(0, σ_ε²).</div>
-            <div><strong class="text-main">Marginal Variance:</strong> Var(y_ij | t_ij) = σ_u0² + t_ij²·σ_u1² + σ_ε² (variance increases quadratically with age).</div>
+            <div><strong class="text-main">Random Effects:</strong> Uncorrelated random intercepts and slopes: \\( \\mathbf{\\Sigma}_u = \\text{diag}(\\sigma_{u0}^2, \\sigma_{u1}^2) \\).</div>
+            <div><strong class="text-main">Residual Distribution:</strong> \\( \\varepsilon_{ij} \\sim \\text{i.i.d. } \\mathcal{N}(0, \\sigma_\\varepsilon^2) \\).</div>
+            <div><strong class="text-main">Marginal Variance:</strong> \\( \\text{Var}(y_{ij} | t_{ij}) = \\sigma_{u0}^2 + t_{ij}^2\\sigma_{u1}^2 + \\sigma_\\varepsilon^2 \\) (variance increases quadratically with age).</div>
           </div>
         `
       },
       {
         title: "5. Intercept-Trend Correlation",
-        formula: "[u₀ᵢ, u₁ᵢ]ᵀ ~ BVN(0, Σ), Corr(u₀ᵢ, u₁ᵢ) = ρ",
-        desc: "Couples initial smolt length and annual growth slope via correlation ρ (default -0.50). Negative ρ models biological compensatory growth where smaller smolts catch up.",
+        formula: "\\( \\begin{pmatrix} u_{0i} \\\\ u_{1i} \\end{pmatrix} \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{\\Sigma}) \\)",
+        desc: "Couples initial smolt length and annual growth slope via correlation \\( \\rho \\) (default -0.50). Negative \\( \\rho \\) models biological compensatory growth where smaller smolts catch up.",
         spec: `
-          <div class="mono inner-panel px-3 py-1.5 rounded-lg text-xs mb-2">
-            [u₀ᵢ, u₁ᵢ]ᵀ ~ N(0, Σ), &nbsp; Σ = [[σ_u0², ρ·σ_u0·σ_u1], [ρ·σ_u0·σ_u1, σ_u1²]]
+          <div class="inner-panel px-3 py-3 rounded-lg text-sm mb-2 overflow-x-auto text-center">
+            \\[ \\begin{pmatrix} u_{0i} \\\\ u_{1i} \\end{pmatrix} \\sim \\mathcal{N}\\left( \\mathbf{0}, \\begin{pmatrix} \\sigma_{u0}^2 & \\rho \\sigma_{u0} \\sigma_{u1} \\\\ \\rho \\sigma_{u0} \\sigma_{u1} & \\sigma_{u1}^2 \\end{pmatrix} \\right) \\]
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <div><strong class="text-main">Random Effects:</strong> Bivariate normal random effects with covariance Cov(u₀ᵢ, u₁ᵢ) = ρ·σ_u0·σ_u1.</div>
-            <div><strong class="text-main">Residual Distribution:</strong> ε_ij ~ i.i.d. N(0, σ_ε²).</div>
-            <div><strong class="text-main">Marginal Variance:</strong> Var(y_ij | t_ij) = σ_u0² + 2·t_ij·ρ·σ_u0·σ_u1 + t_ij²·σ_u1² + σ_ε².</div>
+            <div><strong class="text-main">Random Effects:</strong> Bivariate normal random effects with covariance \\( \\text{Cov}(u_{0i}, u_{1i}) = \\rho\\sigma_{u0}\\sigma_{u1} \\).</div>
+            <div><strong class="text-main">Residual Distribution:</strong> \\( \\varepsilon_{ij} \\sim \\text{i.i.d. } \\mathcal{N}(0, \\sigma_\\varepsilon^2) \\).</div>
+            <div><strong class="text-main">Marginal Variance:</strong> \\( \\text{Var}(y_{ij} | t_{ij}) = \\sigma_{u0}^2 + 2t_{ij}\\rho\\sigma_{u0}\\sigma_{u1} + t_{ij}^2\\sigma_{u1}^2 + \\sigma_\\varepsilon^2 \\).</div>
           </div>
         `
       },
       {
         title: "6. Residual Autocorrelation",
-        formula: "Cov(ε_ij, ε_ik) = [σ_ε² / (1 − φ²)] · φ^|t_ij − t_ik|",
-        desc: "Introduces continuous-time autoregressive CAR(1) correlation across irregular measurement intervals Δt, capturing multi-month persistence in unobserved states.",
+        formula: "\\( \\text{Cov}(\\varepsilon_{ij}, \\varepsilon_{ik}) = \\frac{\\sigma_\\varepsilon^2}{1 - \\phi^2} \\phi^{\\Delta t_{ij}} \\)",
+        desc: "Introduces continuous-time autoregressive CAR(1) correlation across irregular measurement intervals \\( \\Delta t \\), capturing multi-month persistence in unobserved states.",
         spec: `
-          <div class="mono inner-panel px-3 py-1.5 rounded-lg text-xs mb-2">
-            y_ij = (β₀ + u₀ᵢ) + (β₁ + u₁ᵢ)·t_ij + ε_ij, &nbsp;&nbsp; ε_ij = φ^(Δt_ij)·ε_{i,j-1} + η_ij
+          <div class="inner-panel px-3 py-3 rounded-lg text-sm mb-2 overflow-x-auto text-center">
+            \\[ y_{ij} = (\\beta_0 + u_{0i}) + (\\beta_1 + u_{1i})t_{ij} + \\varepsilon_{ij}, \\quad \\varepsilon_{ij} = \\phi^{\\Delta t_{ij}} \\varepsilon_{i,j-1} + \\eta_{ij} \\]
           </div>
           <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-            <div><strong class="text-main">Random Effects:</strong> [u₀ᵢ, u₁ᵢ]ᵀ ~ N(0, Σ) with intercept-slope correlation ρ.</div>
-            <div><strong class="text-main">CAR(1) Residuals:</strong> Autoregressive correlation decaying exponentially with time gap Δt = |t_ij − t_ik|.</div>
+            <div><strong class="text-main">Random Effects:</strong> \\( [u_{0i}, u_{1i}]^T \\sim \\mathcal{N}(\\mathbf{0}, \\mathbf{\\Sigma}) \\) with intercept-slope correlation \\( \\rho \\).</div>
+            <div><strong class="text-main">CAR(1) Residuals:</strong> Autoregressive correlation decaying exponentially with time gap \\( \\Delta t_{ij} = |t_{ij} - t_{ik}| \\).</div>
             <div><strong class="text-main">Full Marginal Covariance:</strong> Includes the structured AR(1) covariance matrix alongside the random effects covariance structure.</div>
           </div>
         `
@@ -720,7 +736,7 @@
     function updateStepInfo() {
       const step = stepExplanations[currentStep];
       document.getElementById("currentStepBadge").innerText = `Step ${currentStep + 1} / 6`;
-      document.getElementById("activeModelFormula").innerText = step.formula;
+      document.getElementById("activeModelFormula").innerHTML = step.formula;
 
       const card = document.getElementById("stepInfoCard");
       card.innerHTML = `
@@ -743,6 +759,16 @@
       });
 
       updateParameterVisibility(currentStep);
+
+      // Trigger MathJax parsing on the updated DOM nodes
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        const nodesToUpdate = [
+          document.getElementById("activeModelFormula"),
+          document.getElementById("statModelContent")
+        ];
+        MathJax.typesetClear(nodesToUpdate);
+        MathJax.typesetPromise(nodesToUpdate).catch((err) => console.log(err.message));
+      }
     }
 
     function updateParameterVisibility(step) {
@@ -1039,6 +1065,11 @@
       const clientPrefersDark = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
       applyTheme(clientPrefersDark);
       setStep(0);
+      
+      // Perform an initial render of any static math labels on the page
+      if (window.MathJax && window.MathJax.typesetPromise) {
+        MathJax.typesetPromise().catch((err) => console.log(err.message));
+      }
     });
   </script>
 </body>
